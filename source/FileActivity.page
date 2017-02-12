@@ -1,0 +1,71 @@
+Menu="SystemInformation"
+Type="xmenu"
+Title="File Activity"
+Icon="file.activity.png"
+Tabs="true"
+---
+<?php
+/* Copyright 2017, Dan Landon
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ */
+
+echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
+// Disk activity
+$disks = glob("/mnt/disk[1-30]");
+$filesactive = "";
+foreach ($disks as $disk) {
+	$files = shell_exec("find '${disk}' -mtime -0.084 -printf '%TY-%Tm-%Td %TH:%TM => %p\n' 2>/dev/null"); // 0.084
+	if (!empty($files)) {
+		$filesactive .= "Disk ".substr($disk,9)."\n";
+		$filesactive .= $files;
+		$filesactive .= "\n";
+	}
+}
+// UD disks activity.
+$files = shell_exec("find '/mnt/disks' -mtime -0.084 -printf '%TY-%Tm-%Td %TH:%TM => %p\n' 2>/dev/null"); // 0.084
+if (!empty($files)) {
+	$filesactive .= "Disks"."\n";
+	$filesactive .= $files;
+	$filesactive .= "\n";
+}
+// Cache activity.
+$files = shell_exec("find '/mnt/cache' -mtime -0.084 -printf '%TY-%Tm-%Td %TH:%TM => %p\n' 2>/dev/null"); // 0.084
+if (!empty($files)) {
+	$filesactive .= "Cache"."\n";
+	$filesactive .= $files;
+	$filesactive .= "\n";
+}
+
+echo $filesactive;
+echo "</pre>";
+echo "<div>";
+echo	"<blockquote class='inline_help'>";
+echo	"<p>Active Files:</p>";
+echo	"<p>All files modified in the last two hours are shown by disk.</p>";
+echo	"</blockquote>";
+echo "</div>";
+?>
+
+<script>
+function getlog() {
+  $('input[value="Download"]').val('Downloading...').prop('disabled',true);
+  $.post('/webGui/include/Download.php',{cmd:'save',source:'/var/log/WeeklyBackup.log',file:'<?=$zip?>'},function(zip) {
+    location = zip;
+    setTimeout(cleanUp,4000);
+  });
+}
+<?if ($display['resize']):?>
+$(function() {
+  $('pre.up').css('height',Math.max(window.innerHeight-280,370)).show();
+});
+<?endif;?>
+</script>
+
+<input type="button" value="Refresh" onclick="refresh()">
+<input type="button" value="Done" onclick="done()">
