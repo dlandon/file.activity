@@ -12,7 +12,8 @@
 <PLUGIN  name="&name;"
          author="&author;"
          version="&version;"
-         launch="&launch;">
+         launch="&launch;"
+         pluginURL="&pluginURL;">
 
 <CHANGES>
 ##&name;
