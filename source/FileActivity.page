@@ -47,7 +47,7 @@ echo "</pre>";
 echo "<div>";
 echo	"<blockquote class='inline_help'>";
 echo	"<p>Active Files:</p>";
-echo	"<p>All files modified in the last two hours are shown by disk.</p>";
+echo	"<p>All files and directories modified in the last two hours are shown by disk.  Unassigned Devices disks and the cache disk are also shown.</p>";
 echo	"</blockquote>";
 echo "</div>";
 ?>
