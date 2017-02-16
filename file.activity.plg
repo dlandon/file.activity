@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.14">
+<!ENTITY version    "2017.02.16">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"a351d168b852cceb6f155d5c3cef6849">
+<!ENTITY MD5		"c1266996c9d79f2b6c61cf2dc707afc8">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,6 +18,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Changed to inotify to log all write file activity.
+
+###2017.02.14
 - Additional help text.
 
 ###2017.02.12

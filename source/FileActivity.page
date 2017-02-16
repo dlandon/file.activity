@@ -20,37 +20,43 @@ echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class=
 $disks = glob("/mnt/disk[1-30]");
 $filesactive = "";
 foreach ($disks as $disk) {
-	$files = shell_exec("find '${disk}' -mtime -0.084 -printf '%TY-%Tm-%Td %TH:%TM => %p\n' 2>/dev/null"); // 0.084
+	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep $disk");
 	if (!empty($files)) {
-		$filesactive .= "Disk ".substr($disk,9)."\n";
+		$filesactive .= "<strong>** Disk ".substr($disk,9)."</strong>\n";
 		$filesactive .= $files;
 		$filesactive .= "\n";
 	}
 }
 // UD disks activity.
-$files = shell_exec("find '/mnt/disks' -mtime -0.084 -printf '%TY-%Tm-%Td %TH:%TM => %p\n' 2>/dev/null"); // 0.084
+$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep 'disks'");
 if (!empty($files)) {
-	$filesactive .= "Disks"."\n";
+	$filesactive .= "<strong>** Unassigned Devices"."</strong>\n";
 	$filesactive .= $files;
 	$filesactive .= "\n";
 }
 // Cache activity.
-$files = shell_exec("find '/mnt/cache' -mtime -0.084 -printf '%TY-%Tm-%Td %TH:%TM => %p\n' 2>/dev/null"); // 0.084
+$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep 'cache'");
 if (!empty($files)) {
-	$filesactive .= "Cache"."\n";
+	$filesactive .= "<strong>** Cache"."</strong>\n";
 	$filesactive .= $files;
 	$filesactive .= "\n";
 }
-
 echo $filesactive;
 echo "</pre>";
 echo "<div>";
 echo	"<blockquote class='inline_help'>";
-echo	"<p>Active Files:</p>";
-echo	"<p>All files and directories modified in the last two hours are shown by disk.  Unassigned Devices disks and the cache disk are also shown.</p>";
+echo	"<p>File Activity:</p>";
+echo	"<p>File write activity is monitored on the array using inotify and is displayed by disk.  Unassigned Devices disks and the cache disk are also shown.  You need to start the File Activity in order to log the disk write activity.  FIle Activity is intended to be running for short periods so you can check disk write activity.  A server with a lot of file activity can fill the log space.</p>";
+echo	"<p>Note: File Activity is stopped if the array is stopped.</p>";
 echo	"</blockquote>";
 echo "</div>";
 ?>
+
+<script>
+$(function() {
+  showStatus('pid','file.activity');
+});
+</script>
 
 <script>
 function getlog() {
@@ -67,5 +73,33 @@ $(function() {
 <?endif;?>
 </script>
 
-<input type="button" value="Refresh" onclick="refresh()">
-<input type="button" value="Done" onclick="done()">
+<?if (! is_file("/var/run/file.activity.pid")):?>
+<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
+	<form name="start_file_activity" method="POST" action="/update.php" target="progressFrame">
+		<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+		<input type="hidden" name="#arg[1]" value="start">
+		<input type="submit" value="Start" title="Start File Activity">
+	</form>
+</div>
+<?else:?>
+<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
+	<form name="stop_file_activity" method="POST" action="/update.php" target="progressFrame">
+		<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+		<input type="hidden" name="#arg[1]" value="stop">
+		<input type="submit" value="Stop" title="Stop File Activity">
+	</form>
+</div>
+<?endif;?>
+<div style="position:relative;float:left;width:7%;text-align:right;margin-bottom:24px">
+	<input type="button" value="Refresh" onclick="refresh()">
+</div>
+<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
+	<form name="clear log" method="POST" action="/update.php" target="progressFrame">
+		<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+		<input type="hidden" name="#arg[1]" value="clear">
+		<input type="submit" value="Clear" title="Clear the File Activity log">
+	</form>
+</div>
+<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
+	<input type="button" value="Done" onclick="done()">
+</div>

@@ -1,0 +1,4 @@
+#!/bin/bash
+# Stop file activity logging.
+
+/usr/local/emhttp/plugins/file.activity/scripts/rc.file.activity stop

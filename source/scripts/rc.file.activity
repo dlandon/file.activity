@@ -1,0 +1,74 @@
+#!/bin/bash
+# Usage:
+# start|stop|clear.
+#
+
+file_activity_start() {
+	logger "Starting File Activity" -t"$PROG_NAME"
+
+	# Is file activity running?
+	if [ ! -e "/var/run/${plugin}.pid" ]; then
+		echo "Starting File Activity..."
+
+		# Create pid to show file activity is running.
+		echo $$ > /var/run/${plugin}.pid
+
+		# Monitor disks and UD disks
+		inotifywait -d -r -e attrib,move,create,delete --timefmt '%a %b %d %H:%M:%S' --format '%T %e => %w%f' /mnt/disk* -o /var/log/${plugin}.log 2>/dev/null
+
+		# Monitor cache
+		inotifywait -d -r -e attrib,move,create,delete --timefmt '%a %b %d %H:%M:%S' --format '%T %e => %w%f' /mnt/cache -o /var/log/${plugin}.log 2>/dev/null
+
+		sleep 2
+	else
+		echo "File Activity already running"
+		logger "File Activity already running" -t"$PROG_NAME"
+	fi
+}
+
+file_activity_stop() {
+	logger "Stopping File Activity" -t"$PROG_NAME"
+
+	# Is the files active inotify script running?
+	if [ -f "/var/run/${plugin}.pid" ]; then
+		echo "Stoping File Activity..."
+
+		kill $(</var/run/${plugin}.pid) >/dev/null 2>&1
+
+		# Kill all file activity processes.
+		for pid in $(ps -ef|grep .*inotifywait.*file.activity | grep -v grep|awk "{ print \$2}")
+		do
+			kill $pid >/dev/null 2>&1
+		done	
+
+		# Remove pid file to show file activity is not running.
+		rm -f /var/run/${plugin}.pid
+
+		sleep 2
+	else
+		echo "File Activity is not running"
+		logger "File Activity is not running" -t"$PROG_NAME"
+	fi
+}
+
+file_activity_clear() {
+	# Clear the file activity log.
+	echo "" > /var/log/file.activity.log
+}
+
+plugin="file.activity"
+PROG_NAME=${plugin}
+
+case "$1" in
+	'start')
+		file_activity_start
+	;;
+	'stop')
+		file_activity_stop
+	;;
+	'clear')
+		file_activity_clear
+	;;
+	*)
+		echo "usage $0 start|stop|clear"
+esac
