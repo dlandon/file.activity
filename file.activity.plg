@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.16b">
+<!ENTITY version    "2017.02.16c">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"60054cb10b5521705433c2fb4900c132">
+<!ENTITY MD5		"3e9e3ed774427efd8259496178dd8d3e">
 ]>
 
 <PLUGIN  name="&name;"
