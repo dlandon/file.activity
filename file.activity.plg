@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.16">
+<!ENTITY version    "2017.02.16a">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"c1266996c9d79f2b6c61cf2dc707afc8">
+<!ENTITY MD5		"e07e71a07b46bacff4ce5cc118d4e3bd">
 ]>
 
 <PLUGIN  name="&name;"
@@ -89,6 +89,9 @@ The 'remove' script.
 -->
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
+# Stop file activity.
+/usr/local/emhttp/plugins/file.activity/scripts/rc.file.activity stop
+
 # Remove all plugin files.
 rm -rf /boot/config/plugins/&name; 2>/dev/null
 rm -rf /usr/local/emhttp/plugins/&name; 2>/dev/null
