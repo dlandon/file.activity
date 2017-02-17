@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.16c">
+<!ENTITY version    "2017.02.17">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"3e9e3ed774427efd8259496178dd8d3e">
+<!ENTITY MD5		"af0c4db08e1c1b7b098ee326a98dbb8f">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,6 +18,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Add file open event so file reads are now logged.
+
+###2017.02.16c
 - Changed to inotify to log all write file activity.
 
 ###2017.02.14

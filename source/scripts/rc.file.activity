@@ -13,11 +13,8 @@ file_activity_start() {
 		# Create pid to show file activity is running.
 		echo $$ > /var/run/${plugin}.pid
 
-		# Monitor disks and UD disks
-		inotifywait -d -r -e attrib,move,create,delete --excludei 'appdata/' --timefmt '%a %b %d %H:%M:%S' --format '%T %e => %w%f' /mnt/disk* -o /var/log/${plugin}.log 2>/dev/null
-
-		# Monitor cache
-		inotifywait -d -r -e attrib,move,create,delete --excludei 'appdata/' --timefmt '%a %b %d %H:%M:%S' --format '%T %e => %w%f' /mnt/cache -o /var/log/${plugin}.log 2>/dev/null
+		# Start inotify script to monitor disk events
+		at -M -f /usr/local/emhttp/plugins/file.activity/scripts/inotify.file.activity now 2>/dev/null
 
 		sleep 2
 	else
@@ -36,7 +33,7 @@ file_activity_stop() {
 		kill $(</var/run/${plugin}.pid) >/dev/null 2>&1
 
 		# Kill all file activity processes.
-		for pid in $(ps -ef|grep .*inotifywait.*file.activity | grep -v grep|awk "{ print \$2}")
+		for pid in $(ps -ef|grep .*inotifywait.*appdata | grep -v grep|awk "{ print \$2}")
 		do
 			kill $pid >/dev/null 2>&1
 		done	

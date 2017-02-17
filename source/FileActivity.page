@@ -46,7 +46,7 @@ echo "</pre>";
 echo "<div>";
 echo	"<blockquote class='inline_help'>";
 echo	"<p>File Activity:</p>";
-echo	"<p>File write activity is monitored on the array using inotify and is displayed by disk.  Unassigned Devices disks and the cache disk are also shown.  You need to start the File Activity in order to log the disk write activity.  FIle Activity is intended to be running for short periods so you can check disk write activity.  A server with a lot of file activity can fill the log space.  The appdata directory is excluded.</p>";
+echo	"<p>File read/write/modify activity is monitored on the array using inotify and is displayed by disk, UD disks, and cache disk.  You need to start the File Activity in order to log the disk activity.  File Activity is intended to be running for short periods so you can check disk activity.  A server with a lot of file activity can fill the log space.  The appdata directory is excluded.</p>";
 echo	"<p>Note: File Activity is stopped if the array is stopped.</p>";
 echo	"</blockquote>";
 echo "</div>";
