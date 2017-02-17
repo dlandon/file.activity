@@ -32,7 +32,7 @@
 
 <!--
 Copyright 2017, Dan Landon
-This is the webGUI plugin to view disk file activity within the last two hours.
+This is the webGUI plugin to view disk file activity.
 -->
 
 <!--
@@ -40,6 +40,11 @@ The 'pre-install' script.
 -->
 <FILE Run="/bin/bash">
 <INLINE>
+if [ -x /usr/local/emhttp/plugins/file.activity/scripts/rc.file.activity ]; then
+	# Stop file activity.
+	/usr/local/emhttp/plugins/file.activity/scripts/rc.file.activity stop 2>/dev/null
+fi
+
 # Remove emhttp files so we can re-install.
 rm -rf /usr/local/emhttp/plugins/&name;/* 2>/dev/null
 
@@ -93,7 +98,7 @@ The 'remove' script.
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
 # Stop file activity.
-/usr/local/emhttp/plugins/file.activity/scripts/rc.file.activity stop
+/usr/local/emhttp/plugins/file.activity/scripts/rc.file.activity stop 2>/dev/null
 
 # Remove all plugin files.
 rm -rf /boot/config/plugins/&name; 2>/dev/null
