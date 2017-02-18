@@ -1,6 +1,6 @@
 #!/bin/bash
 # Usage:
-# start|stop|clear.
+# start|stop|clear|update.
 #
 
 file_activity_start() {
@@ -27,7 +27,7 @@ file_activity_stop() {
 	logger "Stopping File Activity" -t"$PROG_NAME"
 
 	# Is the files active inotify script running?
-	if [ -f "/var/run/${plugin}.pid" ]; then
+	if [ -e "/var/run/${plugin}.pid" ]; then
 		echo "Stoping File Activity..."
 
 		kill $(</var/run/${plugin}.pid) >/dev/null 2>&1
@@ -53,6 +53,14 @@ file_activity_clear() {
 	echo "" > /var/log/file.activity.log
 }
 
+file_activity_update() {
+	# Is the files active inotify script running?
+	if [ -e "/var/run/${plugin}.pid" ]; then
+		file_activity_stop
+		file_activity_start
+	fi
+}
+
 plugin="file.activity"
 PROG_NAME=${plugin}
 
@@ -66,6 +74,9 @@ case "$1" in
 	'clear')
 		file_activity_clear
 	;;
+	'update')
+		file_activity_update
+	;;
 	*)
-		echo "usage $0 start|stop|clear"
+		echo "usage $0 start|stop|clear|update"
 esac

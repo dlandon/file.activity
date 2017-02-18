@@ -2,10 +2,21 @@
 # Usage:
 #
 plugin="file.activity"
+CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
+source $CONFIG
+
+disks="/mnt/disk[1-99]"
+if [ "$INCLUDE_UD" = "yes" ]; then
+	disks="$disks /mnt/disks"
+fi
+
+if [ "$INCLUDE_CACHE" = "yes" ]; then
+	disks="$disks /mnt/cache"
+fi
 open_isdir="OPEN,ISDIR"
 
 # Monitor disks, UD disks, and cache disk.
-inotifywait -m -r -q -e open,attrib,move,create,delete --excludei 'appdata/' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' /mnt/disk* /mnt/cache 2>/dev/null  |  while read line
+inotifywait -m -r -q -e open,attrib,move,create,delete --excludei 'appdata/' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' ${disks} 2>/dev/null  |  while read line
 do
 	if [ "${line/$open_isdir}" = "$line" ]; then
 		echo $line >> /var/log/${plugin}.log

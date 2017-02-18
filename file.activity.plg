@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.17">
+<!ENTITY version    "2017.02.18">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"af0c4db08e1c1b7b098ee326a98dbb8f">
+<!ENTITY MD5		"3c839bc9d5e6d046a2f394d4e158d4a6">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,6 +18,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Add settings so Unassigned Devices and Cache disk can be excluded.
+
+###2017.02.17
 - Add file open event so file reads are now logged.
 
 ###2017.02.16c
@@ -74,6 +77,15 @@ tar -xf /boot/config/plugins/&name;/&name;-&version;.tgz -C /usr/local/emhttp/pl
 
 # Adjust plugin permissions.
 chmod 755 -R /usr/local/emhttp/plugins/&name; 2>/dev/null
+</INLINE>
+</FILE>
+
+<FILE Name="/boot/config/plugins/&name;/&name;.cfg">
+<INLINE>
+<![CDATA[
+INCLUDE_UD="yes"
+INCLUDE_CACHE="yes"
+]]>
 </INLINE>
 </FILE>
 

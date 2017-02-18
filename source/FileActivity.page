@@ -14,7 +14,19 @@ Tabs="true"
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  */
+?>
 
+<script>
+$(function() {
+  showStatus('pid','file.activity');
+});
+</script>
+
+<table class="tablesorter shift ups">
+<thead><tr><th>File Activity</th></tr></thead>
+</table>
+
+<?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
 // Disk activity
 $disks = glob("/mnt/disk[1-99]");
@@ -51,12 +63,6 @@ echo	"<p>Note: File Activity is stopped if the array is stopped.</p>";
 echo	"</blockquote>";
 echo "</div>";
 ?>
-
-<script>
-$(function() {
-  showStatus('pid','file.activity');
-});
-</script>
 
 <script>
 function getlog() {
