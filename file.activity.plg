@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.18">
+<!ENTITY version    "2017.02.18a">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"3c839bc9d5e6d046a2f394d4e158d4a6">
+<!ENTITY MD5		"b98d0b6bd4dff26bd080611baafca01a">
 ]>
 
 <PLUGIN  name="&name;"
@@ -19,6 +19,7 @@
 ##&name;
 ###&version;
 - Add settings so Unassigned Devices and Cache disk can be excluded.
+- Add enable/disable service to start/stop File Activity logging with the array start/stop.
 
 ###2017.02.17
 - Add file open event so file reads are now logged.
@@ -43,9 +44,9 @@ The 'pre-install' script.
 -->
 <FILE Run="/bin/bash">
 <INLINE>
-if [ -x /usr/local/emhttp/plugins/file.activity/scripts/rc.file.activity ]; then
+if [ -x /usr/local/emhttp/plugins/&name;/scripts/rc.&name; ]; then
 	# Stop file activity.
-	/usr/local/emhttp/plugins/file.activity/scripts/rc.file.activity stop 2>/dev/null
+	/usr/local/emhttp/plugins/&name;/scripts/rc.&name; stop 2>/dev/null
 fi
 
 # Remove emhttp files so we can re-install.
@@ -83,6 +84,7 @@ chmod 755 -R /usr/local/emhttp/plugins/&name; 2>/dev/null
 <FILE Name="/boot/config/plugins/&name;/&name;.cfg">
 <INLINE>
 <![CDATA[
+ENABLE="disable"
 INCLUDE_UD="yes"
 INCLUDE_CACHE="yes"
 ]]>
@@ -94,6 +96,14 @@ The 'post-install' script.
 -->
 <FILE Run="/bin/bash">
 <INLINE>
+CONFIG="/boot/config/plugins/&name;/&name;.cfg"
+source $CONFIG
+
+# Start file activity if it is enabled.
+if [ "$SERVICE" = "enable" ]; then
+	/usr/local/emhttp/plugins/&name;/scripts/rc.&name; start
+fi
+
 echo ""
 echo "-----------------------------------------------------------"
 echo " Plugin &name; is installed."

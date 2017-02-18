@@ -57,21 +57,14 @@ echo $filesactive;
 echo "</pre>";
 echo "<div>";
 echo	"<blockquote class='inline_help'>";
-echo	"<p>File Activity:</p>";
-echo	"<p>File read/write/modify activity is monitored on the array using inotify and is displayed by disk, UD disks, and cache disk.  You need to start the File Activity in order to log the disk activity.  File Activity is intended to be running for short periods so you can check disk activity.  A server with a lot of file activity can fill the log space.  The appdata directory is excluded.</p>";
-echo	"<p>Note: File Activity is stopped if the array is stopped.</p>";
+echo	"<p>File Activity Logging:</p>";
+echo	"<p>File read/write/modify activity is monitored and logged on the array using inotify and is displayed by disk, UD disks, and cache.  You need to start the File Activity in order to log the disk activity.  File Activity is intended to be running for short periods so you can check disk activity.  A server with a lot of file activity can fill the log space.  The 'appdata' directory is excluded.</p>";
+echo	"<p>Note: File Activity logging is stopped if the array is stopped.</p>";
 echo	"</blockquote>";
 echo "</div>";
 ?>
 
 <script>
-function getlog() {
-  $('input[value="Download"]').val('Downloading...').prop('disabled',true);
-  $.post('/webGui/include/Download.php',{cmd:'save',source:'/var/log/WeeklyBackup.log',file:'<?=$zip?>'},function(zip) {
-    location = zip;
-    setTimeout(cleanUp,4000);
-  });
-}
 <?if ($display['resize']):?>
 $(function() {
   $('pre.up').css('height',Math.max(window.innerHeight-280,370)).show();
@@ -79,33 +72,37 @@ $(function() {
 <?endif;?>
 </script>
 
-<?if (! is_file("/var/run/file.activity.pid")):?>
-<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
-	<form name="start_file_activity" method="POST" action="/update.php" target="progressFrame">
-		<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
-		<input type="hidden" name="#arg[1]" value="start">
-		<input type="submit" value="Start" title="Start File Activity">
-	</form>
-</div>
+<?if ($var['mdState']=="STARTED"):?>
+	<?if (! is_file("/var/run/file.activity.pid")):?>
+	<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
+		<form name="start_file_activity" method="POST" action="/update.php" target="progressFrame">
+			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+			<input type="hidden" name="#arg[1]" value="start">
+			<input type="submit" value="Start" title="Start File Activity">
+		</form>
+	</div>
+	<?else:?>
+	<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
+		<form name="stop_file_activity" method="POST" action="/update.php" target="progressFrame">
+			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+			<input type="hidden" name="#arg[1]" value="stop">
+			<input type="submit" value="Stop" title="Stop File Activity Logging">
+		</form>
+	</div>
+	<?endif;?>
+	<div style="position:relative;float:left;width:7%;text-align:right;margin-bottom:24px">
+		<input type="button" value="Refresh" onclick="refresh()">
+	</div>
+	<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
+		<form name="clear log" method="POST" action="/update.php" target="progressFrame">
+			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+			<input type="hidden" name="#arg[1]" value="clear">
+			<input type="submit" value="Clear" title="Clear the File Activity log">
+		</form>
+	</div>
+	<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
+		<input type="button" value="Done" onclick="done()">
+	</div>
 <?else:?>
-<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
-	<form name="stop_file_activity" method="POST" action="/update.php" target="progressFrame">
-		<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
-		<input type="hidden" name="#arg[1]" value="stop">
-		<input type="submit" value="Stop" title="Stop File Activity">
-	</form>
-</div>
+	<p>Array is stopped!</p>
 <?endif;?>
-<div style="position:relative;float:left;width:7%;text-align:right;margin-bottom:24px">
-	<input type="button" value="Refresh" onclick="refresh()">
-</div>
-<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
-	<form name="clear log" method="POST" action="/update.php" target="progressFrame">
-		<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
-		<input type="hidden" name="#arg[1]" value="clear">
-		<input type="submit" value="Clear" title="Clear the File Activity log">
-	</form>
-</div>
-<div style="position:relative;float:left;width:6%;text-align:right;margin-bottom:24px">
-	<input type="button" value="Done" onclick="done()">
-</div>

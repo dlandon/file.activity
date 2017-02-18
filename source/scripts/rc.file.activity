@@ -28,7 +28,7 @@ file_activity_stop() {
 
 	# Is the files active inotify script running?
 	if [ -e "/var/run/${plugin}.pid" ]; then
-		echo "Stoping File Activity..."
+		echo "Stopping File Activity..."
 
 		kill $(</var/run/${plugin}.pid) >/dev/null 2>&1
 
@@ -54,14 +54,17 @@ file_activity_clear() {
 }
 
 file_activity_update() {
-	# Is the files active inotify script running?
-	if [ -e "/var/run/${plugin}.pid" ]; then
-		file_activity_stop
+	file_activity_stop
+
+	# Start file activity if service is enabled and not already running.
+	if [ "$SERVICE" = "enable" ]; then
 		file_activity_start
 	fi
 }
 
 plugin="file.activity"
+CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
+source $CONFIG
 PROG_NAME=${plugin}
 
 case "$1" in
