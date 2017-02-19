@@ -19,6 +19,10 @@ open_isdir="OPEN,ISDIR"
 inotifywait -m -r -q -e open,attrib,move,create,delete --excludei 'appdata/' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' ${disks} 2>/dev/null  |  while read line
 do
 	if [ "${line/$open_isdir}" = "$line" ]; then
+		# Add line to log
 		echo $line >> /var/log/${plugin}.log
+
+		# Trim log file if it is over 20000 lines
+		sed -i '20001,$ d' /var/log/${plugin}.log
 	fi
 done

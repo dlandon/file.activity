@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.18a">
+<!ENTITY version    "2017.02.19">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"b98d0b6bd4dff26bd080611baafca01a">
+<!ENTITY MD5		"54f7705eb39997308d15c6331268ecba">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,17 +18,20 @@
 <CHANGES>
 ##&name;
 ###&version;
-- Add settings so Unassigned Devices and Cache disk can be excluded.
-- Add enable/disable service to start/stop File Activity logging with the array start/stop.
+- Add: Limit the number of lines in the File Activity log to 20,000 to prevent it growing excessively large.
+
+###2017.02.18a
+- Add: Settings so Unassigned Devices and Cache disk can be excluded.
+- Add: Enable/disable service to start/stop File Activity logging with the array start/stop.
 
 ###2017.02.17
-- Add file open event so file reads are now logged.
+- Add: File open event so file reads are now logged.
 
 ###2017.02.16c
-- Changed to inotify to log all write file activity.
+- Fix: Changed to inotify to log all write file activity.
 
 ###2017.02.14
-- Additional help text.
+- Add: Additional help text.
 
 ###2017.02.12
 - Initial release.
