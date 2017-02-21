@@ -18,8 +18,8 @@
 <CHANGES>
 ##&name;
 ###&version;
-- Fix: Get list of disks to monitor frm a file and not from the command line.
-- Fix: Increase the max_user_watches.
+- Fix: Get list of disks to monitor from a file and not from the command line.
+- Add: Setting to adjust the max_user_watches.
 
 ###2017.02.19
 - Add: Limit the number of lines in the File Activity log to 20,000 to prevent it growing excessively large.
