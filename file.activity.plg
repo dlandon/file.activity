@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.21">
+<!ENTITY version    "2017.02.21a">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"e25c761dff8fead88d4d11b09c4409e6">
+<!ENTITY MD5		"2400e995677f9422875704357bcf77c4">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,6 +18,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Only first nine disks were included in inotify.
+
+2017.02.21
 - Fix: Get list of disks to monitor from a file and not from the command line.
 - Add: Setting to adjust the max_user_watches.
 

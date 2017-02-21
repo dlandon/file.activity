@@ -6,6 +6,9 @@ disks_file="/tmp/${plugin}/${plugin}.disks"
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
 
+VAR="/usr/local/emhttp/state/var.ini"
+source $VAR
+
 if [ "$MAX_WATCHES" = "" ]; then
 	# Set the inotify max_user_watches.
 	sysctl fs.inotify.max_user_watches="524288" > /dev/null
@@ -14,12 +17,12 @@ else
 	sysctl fs.inotify.max_user_watches="$MAX_WATCHES" > /dev/null
 fi
 
-drives="/mnt/disk[1-99]"
-disks=($drives)
 rm -f "$disks_file" 2>/dev/null
-for i in "${disks[@]}"
+for (( i=1; i<=$SYS_ARRAY_SLOTS; i++ ))
 do
-	echo $i >> "$disks_file"
+	if [ -d "/mnt/disk$i" ]; then
+		echo "/mnt/disk$i" >> "$disks_file"
+	fi
 done
 
 if [ "$INCLUDE_UD" = "yes" ]; then
