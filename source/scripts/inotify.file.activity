@@ -2,21 +2,37 @@
 # Usage:
 #
 plugin="file.activity"
+disks_file="/tmp/${plugin}/${plugin}.disks"
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
 
-disks="/mnt/disk[1-99]"
+if [ "$MAX_WATCHES" = "" ]; then
+	# Set the inotify max_user_watches.
+	sysctl fs.inotify.max_user_watches="524288" > /dev/null
+else
+	# Set the inotify max_user_watches.
+	sysctl fs.inotify.max_user_watches="$MAX_WATCHES" > /dev/null
+fi
+
+drives="/mnt/disk[1-99]"
+disks=($drives)
+rm -f "$disks_file" 2>/dev/null
+for i in "${disks[@]}"
+do
+	echo $i >> "$disks_file"
+done
+
 if [ "$INCLUDE_UD" = "yes" ]; then
-	disks="$disks /mnt/disks"
+	echo "/mnt/disks" >> "$disks_file"
 fi
 
 if [ "$INCLUDE_CACHE" = "yes" ]; then
-	disks="$disks /mnt/cache"
+	echo "/mnt/cache" >> "$disks_file"
 fi
 open_isdir="OPEN,ISDIR"
 
 # Monitor disks, UD disks, and cache disk.
-inotifywait -m -r -q -e open,attrib,move,create,delete --excludei 'appdata/' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' ${disks} 2>/dev/null  |  while read line
+inotifywait -m -r -q -e open,attrib,move,create,delete --excludei 'appdata/' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' --fromfile "$disks_file" 2>/dev/null | while read line
 do
 	if [ "${line/$open_isdir}" = "$line" ]; then
 		# Add line to log

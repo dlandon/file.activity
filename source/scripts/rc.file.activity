@@ -17,6 +17,14 @@ file_activity_start() {
 		at -M -f /usr/local/emhttp/plugins/file.activity/scripts/inotify.file.activity now 2>/dev/null
 
 		sleep 2
+
+		# If the inotify is not running then remove the pid file
+		if [ "$(ps -ef|grep .*inotifywait.*appdata | grep -v grep|awk "{ print \$2}")" = "" ]; then
+			# Remove pid file to show file activity is not running.
+			rm -f /var/run/${plugin}.pid
+			logger "Error: inotify failed to start for File Activity" -t"$PROG_NAME"
+		fi
+
 	else
 		echo "File Activity already running"
 		logger "File Activity already running" -t"$PROG_NAME"
