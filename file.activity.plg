@@ -53,11 +53,6 @@ The 'pre-install' script.
 -->
 <FILE Run="/bin/bash">
 <INLINE>
-if [ -x /usr/local/emhttp/plugins/&name;/scripts/rc.&name; ]; then
-	# Stop file activity.
-	/usr/local/emhttp/plugins/&name;/scripts/rc.&name; stop 2>/dev/null
-fi
-
 # Remove emhttp files so we can re-install.
 rm -rf /usr/local/emhttp/plugins/&name;/* 2>/dev/null
 
