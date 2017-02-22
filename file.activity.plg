@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.22a">
+<!ENTITY version    "2017.02.22b">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"16ba5f35d93ca26b3e99a31534847a67">
+<!ENTITY MD5		"c4d66ca0755e6d2a578f6abb0953f777">
 ]>
 
 <PLUGIN  name="&name;"
@@ -20,6 +20,7 @@
 ###&version;
 - Fix: Log inotify errors to syslog.
 - Fix: Change detection of File Activity running to more accurately reflect inotify actually running.
+- Fix: Set full path for inotify.
 
 ###2017.02.21b
 - Fix: Error on plugin installation at startup.
