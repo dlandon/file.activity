@@ -22,7 +22,6 @@ file_activity_start() {
 		if [ "$(ps -ef|grep .*inotifywait.*appdata | grep -v grep|awk "{ print \$2}")" = "" ]; then
 			# Remove pid file to show file activity is not running.
 			rm -f /var/run/${plugin}.pid
-			logger "Error: inotify failed to start for File Activity" -t"$PROG_NAME"
 		fi
 
 	else
