@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.21a">
+<!ENTITY version    "2017.02.21b">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"2400e995677f9422875704357bcf77c4">
+<!ENTITY MD5		"7d81e85dcf731fc363a7274ff996a973">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,9 +18,8 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Error on plugin installation at startup.
 - Fix: Only first nine disks were included in inotify.
-
-###2017.02.21
 - Fix: Get list of disks to monitor from a file and not from the command line.
 - Add: Setting to adjust the max_user_watches.
 
@@ -112,11 +111,6 @@ source $CONFIG
 
 # Create disks file directory.
 mkdir /tmp/&name; 2>/dev/null
-
-# Start file activity if it is enabled.
-if [ "$SERVICE" = "enable" ]; then
-	/usr/local/emhttp/plugins/&name;/scripts/rc.&name; start
-fi
 
 echo ""
 echo "-----------------------------------------------------------"
