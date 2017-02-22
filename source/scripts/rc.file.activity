@@ -10,20 +10,10 @@ file_activity_start() {
 	if [ ! -e "/var/run/${plugin}.pid" ]; then
 		echo "Starting File Activity..."
 
-		# Create pid to show file activity is running.
-		echo $$ > /var/run/${plugin}.pid
-
 		# Start inotify script to monitor disk events
 		at -M -f /usr/local/emhttp/plugins/file.activity/scripts/inotify.file.activity now 2>/dev/null
 
 		sleep 2
-
-		# If the inotify is not running then remove the pid file
-		if [ "$(ps -ef|grep .*inotifywait.*appdata | grep -v grep|awk "{ print \$2}")" = "" ]; then
-			# Remove pid file to show file activity is not running.
-			rm -f /var/run/${plugin}.pid
-		fi
-
 	else
 		echo "File Activity already running"
 		logger "File Activity already running" -t"$PROG_NAME"
@@ -37,16 +27,11 @@ file_activity_stop() {
 	if [ -e "/var/run/${plugin}.pid" ]; then
 		echo "Stopping File Activity..."
 
-		kill $(</var/run/${plugin}.pid) >/dev/null 2>&1
-
 		# Kill all file activity processes.
 		for pid in $(ps -ef|grep .*inotifywait.*appdata | grep -v grep|awk "{ print \$2}")
 		do
 			kill $pid >/dev/null 2>&1
 		done	
-
-		# Remove pid file to show file activity is not running.
-		rm -f /var/run/${plugin}.pid
 
 		sleep 2
 	else

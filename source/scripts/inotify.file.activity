@@ -34,8 +34,11 @@ if [ "$INCLUDE_CACHE" = "yes" ]; then
 fi
 open_isdir="OPEN,ISDIR"
 
+# Create pid to show file activity is running.
+echo $$ > /var/run/${plugin}.pid
+
 # Monitor disks, UD disks, and cache disk.
-inotifywait -m -r -q -e open,attrib,move,create,delete --excludei 'appdata/' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' --fromfile "$disks_file" --syslog | while read line
+inotifywait -mrqs -e open,attrib,move,create,delete --excludei 'appdata/' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' --fromfile "$disks_file" | while read line
 do
 	if [ "${line/$open_isdir}" = "$line" ]; then
 		# Add line to log
@@ -45,3 +48,6 @@ do
 		sed -i '20001,$ d' /var/log/${plugin}.log
 	fi
 done
+
+# Remove pid file to show file activity is not running.
+rm -f /var/run/${plugin}.pid

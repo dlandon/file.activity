@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.22">
+<!ENTITY version    "2017.02.22a">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"93bbcf9974cf52e41407cb146510873f">
+<!ENTITY MD5		"16ba5f35d93ca26b3e99a31534847a67">
 ]>
 
 <PLUGIN  name="&name;"
@@ -19,6 +19,7 @@
 ##&name;
 ###&version;
 - Fix: Log inotify errors to syslog.
+- Fix: Change detection of File Activity running to more accurately reflect inotify actually running.
 
 ###2017.02.21b
 - Fix: Error on plugin installation at startup.
@@ -56,6 +57,12 @@ The 'pre-install' script.
 -->
 <FILE Run="/bin/bash">
 <INLINE>
+# Stop File Activity inotify if it is running.
+if [ -x "/usr/local/emhttp/plugins/&name;/scripts/rc.&name;" ]; then
+	# Stop file activity.
+	/usr/local/emhttp/plugins/&name;/scripts/rc.&name; stop 2>/dev/null
+fi
+
 # Remove emhttp files so we can re-install.
 rm -rf /usr/local/emhttp/plugins/&name;/* 2>/dev/null
 
@@ -104,9 +111,6 @@ The 'post-install' script.
 -->
 <FILE Run="/bin/bash">
 <INLINE>
-CONFIG="/boot/config/plugins/&name;/&name;.cfg"
-source $CONFIG
-
 # Create disks file directory.
 mkdir /tmp/&name; 2>/dev/null
 
@@ -126,7 +130,7 @@ The 'remove' script.
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
 # Stop file activity.
-/usr/local/emhttp/plugins/file.activity/scripts/rc.file.activity stop 2>/dev/null
+/usr/local/emhttp/plugins/&name;/scripts/rc.&name; stop 2>/dev/null
 
 # Remove all plugin files.
 rm -rf /boot/config/plugins/&name; 2>/dev/null
