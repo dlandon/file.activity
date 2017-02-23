@@ -29,7 +29,8 @@ $(function() {
 <?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
 // Disk activity
-$disks = glob("/mnt/disk[1-99]");
+$disks = glob("/mnt/disk[^s]*");
+natcasesort($disks);
 $filesactive = "";
 foreach ($disks as $disk) {
 	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '${disk}/'");
