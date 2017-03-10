@@ -6,14 +6,6 @@ disks_file="/tmp/${plugin}/${plugin}.disks"
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
 
-if [ "$MAX_WATCHES" = "" ]; then
-	# Set the inotify max_user_watches.
-	sysctl fs.inotify.max_user_watches="524288" > /dev/null
-else
-	# Set the inotify max_user_watches.
-	sysctl fs.inotify.max_user_watches="$MAX_WATCHES" > /dev/null
-fi
-
 # Create list of disks to include in the inotify.
 rm -f "$disks_file" 2>/dev/null
 drives="/mnt/disk[^s]*"

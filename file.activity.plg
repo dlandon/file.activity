@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.02.23">
+<!ENTITY version    "2017.03.10">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"9c08d18fa8db373ee04730b1ee453b47">
+<!ENTITY MD5		"d8c0d8046fb7a9da34dbe7fdc6aa478b">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,6 +18,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Remove the inotify Max User Watches setting and move it to the Tips and Tweaks plugin.
+
+###2017.02.23
 - Fix: File Activity log not showing more than 9 disks.
 
 ###2017.02.22c

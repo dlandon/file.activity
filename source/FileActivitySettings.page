@@ -52,13 +52,6 @@ $file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true)
 
 	> Set to 'Yes' to enable File Activity logging for the Cache Disk(s).
 
-	Max User Watches:
-	: <input type="text" name="MAX_WATCHES" class="narrow" maxlength="20" value="<?=$file_activity_cfg['MAX_WATCHES'];?>">
-
-	> If inotify fails to start because there are not enough user watches, increase the max_user_watches and re-start File Activity.
-	>
-	> The default is 524288.
-
 	<input type="submit" name="#default" value="Default" title="Load and apply default values.">
 	: <input type="submit" name="#apply" value="Apply"><input type="button" value="Done" onclick="done()">
 	</form>
