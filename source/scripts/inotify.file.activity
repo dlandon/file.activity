@@ -16,11 +16,15 @@ do
 done
 
 if [ "$INCLUDE_UD" = "yes" ]; then
-	echo "/mnt/disks" >> "$disks_file"
+	if [ -d "/mnt/disks" ]; then
+		echo "/mnt/disks" >> "$disks_file"
+	fi
 fi
 
 if [ "$INCLUDE_CACHE" = "yes" ]; then
-	echo "/mnt/cache" >> "$disks_file"
+	if [ -d "/mnt/cache" ];then
+		echo "/mnt/cache" >> "$disks_file"
+	fi
 fi
 open_isdir="OPEN,ISDIR"
 
