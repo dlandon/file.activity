@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.03.17">
+<!ENTITY version    "2017.04.05">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"69e25e193f73c95975296347b8173bb6">
+<!ENTITY MD5		"c3d0cc97837b26144324510c836d1f14">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,6 +18,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Minor cleanup from removal of Max User Watches setting.
+
+###2017.03.17
 - Fix: File Activity not starting when Unassigned Devices plugin not installed or there is no cache drive.
 
 ###2017.03.10
@@ -119,7 +122,6 @@ chmod 755 -R /usr/local/emhttp/plugins/&name; 2>/dev/null
 SERVICE="disable"
 INCLUDE_UD="yes"
 INCLUDE_CACHE="yes"
-MAX_WATCHES="524288"
 ]]>
 </INLINE>
 </FILE>
