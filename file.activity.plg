@@ -20,6 +20,9 @@
 ###&version;
 - Fix: Php warnings in unRAID 6.5.
 
+###2017.04.05
+- Fix: Minor cleanup from removal of Max User Watches setting.
+
 ###2017.03.17
 - Fix: File Activity not starting when Unassigned Devices plugin not installed or there is no cache drive.
 
