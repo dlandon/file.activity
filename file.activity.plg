@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2017.04.05">
+<!ENTITY version    "2018.03.03">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"c3d0cc97837b26144324510c836d1f14">
+<!ENTITY MD5		"2d2a6cbf64d9cf7443afa2eef8341be9">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,7 +18,7 @@
 <CHANGES>
 ##&name;
 ###&version;
-- Fix: Minor cleanup from removal of Max User Watches setting.
+- Fix: Php warnings in unRAID 6.5.
 
 ###2017.03.17
 - Fix: File Activity not starting when Unassigned Devices plugin not installed or there is no cache drive.
@@ -122,6 +122,7 @@ chmod 755 -R /usr/local/emhttp/plugins/&name; 2>/dev/null
 SERVICE="disable"
 INCLUDE_UD="yes"
 INCLUDE_CACHE="yes"
+MAX_WATCHES="524288"
 ]]>
 </INLINE>
 </FILE>
@@ -137,7 +138,7 @@ mkdir /tmp/&name; 2>/dev/null
 echo ""
 echo "-----------------------------------------------------------"
 echo " Plugin &name; is installed."
-echo " Copyright 2017, Dan Landon"
+echo " Copyright 2017-2018, Dan Landon"
 echo " Version: &version;"
 echo "-----------------------------------------------------------"
 echo ""

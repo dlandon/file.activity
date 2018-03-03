@@ -33,7 +33,7 @@ $disks = glob("/mnt/disk[^s]*");
 natcasesort($disks);
 $filesactive = "";
 foreach ($disks as $disk) {
-	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '${disk}/'");
+	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '{$disk}/'");
 	if (!empty($files)) {
 		$filesactive .= "<strong>** Disk ".substr($disk,9)."</strong>\n";
 		$filesactive .= $files;
