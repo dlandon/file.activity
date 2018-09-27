@@ -3,10 +3,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2018.03.21">
+<!ENTITY version    "2018.09.27">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"d6c2392e636540ea500d20de5e9ea7de">
+<!ENTITY MD5		"21c68c87458bbe2493871c937d81d721">
 ]>
 
 <PLUGIN  name="&name;"
@@ -18,6 +18,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Button crowding in Unraid 6.6.
+
+###2018.03.21
 - Fix: Update unRAID version check.
 
 ###2018.03.03a
