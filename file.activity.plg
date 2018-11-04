@@ -21,10 +21,10 @@
 - Fix: Button crowding in Unraid 6.6.
 
 ###2018.03.21
-- Fix: Update unRAID version check.
+- Fix: Update Unraid version check.
 
 ###2018.03.03a
-- Fix: Php warnings in unRAID 6.5.
+- Fix: Php warnings in Unraid 6.5.
 
 ###2017.04.05
 - Fix: Minor cleanup from removal of Max User Watches setting.
@@ -39,7 +39,7 @@
 - Fix: File Activity log not showing more than 9 disks.
 
 ###2017.02.22c
-- Fix: Set minimum unRAID version to 6.3.
+- Fix: Set minimum Unraid version to 6.3.
 - Fix: Log inotify errors to syslog.
 - Fix: Change detection of File Activity running to more accurately reflect inotify actually running.
 - Fix: Set full path for inotify.
@@ -86,7 +86,7 @@ This is the webGUI plugin to view disk file activity.
   {
     echo "************************************************************\n";
     echo "\n";
-    echo "File Activity Requires unRAID version 6.3 or greater to run.\n";
+    echo "File Activity Requires Unraid version 6.3 or greater to run.\n";
     echo "\n";
     echo "************************************************************\n";
     exit(1);
