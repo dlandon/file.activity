@@ -3,21 +3,28 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2018.09.27">
+<!ENTITY version    "2019.01.14">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
-<!ENTITY MD5		"21c68c87458bbe2493871c937d81d721">
+<!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
+<!ENTITY MD5		"0e86431b4418f47a29ccba93030027e2">
 ]>
 
-<PLUGIN  name="&name;"
-         author="&author;"
-         version="&version;"
-         launch="&launch;"
-         pluginURL="&pluginURL;">
+<PLUGIN	name="&name;"
+		author="&author;"
+		version="&version;"
+		launch="&launch;"
+		pluginURL="&pluginURL;"
+		support="&supportURL;"
+		icon="pencil-square"
+		min="6.4.0">
 
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Icons for v6.
+
+###2018.09.27
 - Fix: Button crowding in Unraid 6.6.
 
 ###2018.03.21
@@ -74,27 +81,6 @@
 Copyright 2017-2018, Dan Landon
 This is the webGUI plugin to view disk file activity.
 -->
-
-<!-- The 'version-check' script. -->
-<FILE Run="/usr/bin/php">
-<INLINE>
-<![CDATA[
-<?
-  $version = parse_ini_file("/etc/unraid-version");
-  
-  if ( version_compare($version['version'],"6.3", "<") )
-  {
-    echo "************************************************************\n";
-    echo "\n";
-    echo "File Activity Requires Unraid version 6.3 or greater to run.\n";
-    echo "\n";
-    echo "************************************************************\n";
-    exit(1);
-  }
-?>
-]]>
-</INLINE>
-</FILE>
 
 <!--
 The 'pre-install' script.
@@ -161,7 +147,7 @@ mkdir /tmp/&name; 2>/dev/null
 echo ""
 echo "-----------------------------------------------------------"
 echo " &name; is installed."
-echo " Copyright 2017-2018, &author;"
+echo " Copyright 2017-2019, &author;"
 echo " Version: &version;"
 echo "-----------------------------------------------------------"
 echo ""

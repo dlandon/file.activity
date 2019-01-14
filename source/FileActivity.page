@@ -1,11 +1,11 @@
 Menu="SystemInformation"
 Type="xmenu"
 Title="File Activity"
-Icon="file.activity.png"
+Icon="pencil-square"
 Tabs="true"
 ---
 <?php
-/* Copyright 2017, Dan Landon
+/* Copyright 2017-2019, Dan Landon
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 2,
