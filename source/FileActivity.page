@@ -1,7 +1,7 @@
 Menu="SystemInformation"
 Type="xmenu"
 Title="File Activity"
-Icon="pencil-square"
+Icon="folder"
 Tabs="true"
 ---
 <?php
