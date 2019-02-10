@@ -22,9 +22,16 @@ $(function() {
 });
 </script>
 
+<blockquote class='inline_help'>
+<p>File Activity Logging:</p>
+<p>File read/write/modify activity is monitored and logged on the array using inotify and is displayed by disk, UD disks, and cache.  You need to start the File Activity in order to log the disk activity.  File Activity is intended to be running for short periods so you can check disk activity.  A server with a lot of file activity can fill the log space.  The 'appdata' directory is excluded.</p>
+<p>Note: File Activity logging is stopped if the array is stopped.</p>
+</blockquote>
+
 <table class="tablesorter shift ups">
 <thead><tr><th>File Activity</th></tr></thead>
 </table>
+<br />
 
 <?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
@@ -56,13 +63,6 @@ if (!empty($files)) {
 }
 echo $filesactive;
 echo "</pre>";
-echo "<div>";
-echo	"<blockquote class='inline_help'>";
-echo	"<p>File Activity Logging:</p>";
-echo	"<p>File read/write/modify activity is monitored and logged on the array using inotify and is displayed by disk, UD disks, and cache.  You need to start the File Activity in order to log the disk activity.  File Activity is intended to be running for short periods so you can check disk activity.  A server with a lot of file activity can fill the log space.  The 'appdata' directory is excluded.</p>";
-echo	"<p>Note: File Activity logging is stopped if the array is stopped.</p>";
-echo	"</blockquote>";
-echo "</div>";
 ?>
 
 <script>

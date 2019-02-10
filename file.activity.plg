@@ -3,11 +3,11 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2019.01.18">
+<!ENTITY version    "2019.02.10">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"f00b188bc7e2c338fa32f11ed8c8e680">
+<!ENTITY MD5		"ff7c0e1ac321448da38ebc22cf867ae3">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Minor cosmetic cleanup.
+
+###2019.01.18
 - Fix: Change fa icon.
 
 ###2019.01.14
@@ -86,6 +89,14 @@ This is the webGUI plugin to view disk file activity.
 -->
 
 <!--
+Get the plugin bundle.
+-->
+<FILE Name="/boot/config/plugins/&name;/&name;-&version;.tgz">
+<URL>"https://github.com/dlandon/&name;/raw/master/&name;-&version;.tgz"</URL>
+<MD5>&MD5;</MD5>
+</FILE>
+
+<!--
 The 'pre-install' script.
 -->
 <FILE Run="/bin/bash">
@@ -102,14 +113,6 @@ rm -rf /usr/local/emhttp/plugins/&name;/* 2>/dev/null
 # Remove old 'bundle' files.
 rm -f $(ls /boot/config/plugins/&name;/&name;*.tgz 2>/dev/null | grep -v '&version;')
 </INLINE>
-</FILE>
-
-<!--
-Get the plugin bundle.
--->
-<FILE Name="/boot/config/plugins/&name;/&name;-&version;.tgz">
-<URL>"https://github.com/dlandon/&name;/raw/master/&name;-&version;.tgz"</URL>
-<MD5>&MD5;</MD5>
 </FILE>
 
 <!--
