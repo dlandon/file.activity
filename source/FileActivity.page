@@ -14,7 +14,15 @@ Tabs="true"
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  */
+
+$plugin = "file.activity";
+$docroot = $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
+$translations = file_exists("$docroot/webGui/include/Translations.php");
+require_once "$docroot/plugins/$plugin/include/Legacy.php";
 ?>
+<?if (!$translations):?>
+<?eval('?>'.parse_file("$docroot/plugins/$plugin/FileActivity.page"))?>
+<?else:?>
 
 <script>
 $(function() {
@@ -22,16 +30,16 @@ $(function() {
 });
 </script>
 
+<table class="tablesorter shift ups">
+<thead><tr><th>_(File Activity)_</th></tr></thead>
+</table>
+
 <blockquote class='inline_help'>
-<p>File Activity Logging:</p>
-<p>File read/write/modify activity is monitored and logged on the array using inotify and is displayed by disk, UD disks, and cache.  You need to start the File Activity in order to log the disk activity.  File Activity is intended to be running for short periods so you can check disk activity.  A server with a lot of file activity can fill the log space.  The 'appdata' directory is excluded.</p>
-<p>Note: File Activity logging is stopped if the array is stopped.</p>
+<p>_(File Activity Logging)_:</p>
+<p>_(File read/write/modify activity is monitored and logged on the array using inotify and is displayed by disk, UD disks, and cache)_.  _(You need to start the File Activity in order to log the disk activity)_.  _(File Activity is intended to be running for short periods so you can check disk activity)_.  _(A server with a lot of file activity can fill the log space)_.  _(The 'appdata' directory is excluded)_.</p>
+<p>_(Note)_: _(File Activity logging is stopped if the array is stopped)_.</p>
 <br />
 </blockquote>
-
-<table class="tablesorter shift ups">
-<thead><tr><th>File Activity</th></tr></thead>
-</table>
 <br />
 
 <?
@@ -80,7 +88,7 @@ $(function() {
 		<form name="start_file_activity" method="POST" action="/update.php" target="progressFrame">
 			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
 			<input type="hidden" name="#arg[1]" value="start">
-			<input type="submit" value="Start" title="Start File Activity">
+			<input type="submit" value="_(Start)_" title="_(Start File Activity)_">
 		</form>
 	</div>
 	<?else:?>
@@ -88,23 +96,24 @@ $(function() {
 		<form name="stop_file_activity" method="POST" action="/update.php" target="progressFrame">
 			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
 			<input type="hidden" name="#arg[1]" value="stop">
-			<input type="submit" value="Stop" title="Stop File Activity Logging">
+			<input type="submit" value="_(Stop)_" title="_(Stop File Activity Logging)_">
 		</form>
 	</div>
 	<?endif;?>
 	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
-		<input type="button" value="Refresh" onclick="refresh()">
+		<input type="button" value="_(Refresh)_" title="_(Refresh log)_" onclick="refresh()">
 	</div>
 	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
 		<form name="clear log" method="POST" action="/update.php" target="progressFrame">
 			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
 			<input type="hidden" name="#arg[1]" value="clear">
-			<input type="submit" value="Clear" title="Clear the File Activity log">
+			<input type="submit" value="_(Clear)_" title="_(Clear the File Activity log)_">
 		</form>
 	</div>
 	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
-		<input type="button" value="Done" onclick="done()">
+		<input type="button" value="_(Done)_" onclick="done()">
 	</div>
 <?else:?>
 	<p>Array is stopped!</p>
+<?endif;?>
 <?endif;?>
