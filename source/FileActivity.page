@@ -34,13 +34,17 @@ $(function() {
 <thead><tr><th>_(File Activity)_</th></tr></thead>
 </table>
 
-<blockquote class='inline_help'>
-<p>_(File Activity Logging)_:</p>
-<p>_(File read/write/modify activity is monitored and logged on the array using inotify and is displayed by disk, UD disks, and cache)_.  _(You need to start the File Activity in order to log the disk activity)_.  _(File Activity is intended to be running for short periods so you can check disk activity)_.  _(A server with a lot of file activity can fill the log space)_.  _(The 'appdata' directory is excluded)_.</p>
-<p>_(Note)_: _(File Activity logging is stopped if the array is stopped)_.</p>
-<br />
-</blockquote>
-<br />
+:file_activity_loggging_plug:
+> _(File Activity Logging)_:
+>
+> File read/write/modify activity is monitored and logged on the array using inotify and is displayed by disk, UD disks, and cache.
+> You need to start the File Activity in order to log the disk activity.
+> File Activity is intended to be running for short periods so you can check disk activity.
+> A server with a lot of file activity can fill the log space.
+> The 'appdata' directory is excluded.
+>
+> Note: File Activity logging is stopped if the array is stopped.
+:end
 
 <?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
