@@ -3,11 +3,11 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2020.07.28">
+<!ENTITY version    "2020.11.14">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"393741f550e2a847a7865164b622e66d">
+<!ENTITY MD5		"677b011753b41bcb01199d984ed389c3">
 ]>
 
 <PLUGIN	name="&name;"
@@ -17,11 +17,15 @@
 		pluginURL="&pluginURL;"
 		support="&supportURL;"
 		icon="folder"
-		min="6.4.0">
+		min="6.4.0"
+		max="6.8.9">
 
 <CHANGES>
 ##&name;
 ###&version;
+- Add: Max version to 6.8.9.
+
+###2020.07.28
 - Add: System Information page so File Activity will show in tools if it is the only plugin installed in System Information.
 
 2020.06.26
