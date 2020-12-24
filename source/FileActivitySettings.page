@@ -63,7 +63,7 @@ $file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true)
 		<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "no", "_(No)_");?>
 	  </select>
 
-:file_activity_eenable_cache_plug:
+:file_activity_enable_cache_plug:
 	> Set to 'Yes' to enable File Activity logging for the Cache and Pool Disks.  Pool disks only apply in Unraid 6.9.
 :end
 
