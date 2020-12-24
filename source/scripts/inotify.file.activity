@@ -6,26 +6,9 @@ disks_file="/tmp/${plugin}/${plugin}.disks"
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
 
-# Create list of disks to include in the inotify.
-rm -f "$disks_file" 2>/dev/null
-drives="/mnt/disk[^s]*"
-disks=($drives)
-for i in "${disks[@]}"
-do
-	echo $i >> "$disks_file"
-done
+# Configure the disks_file baced on the file activity settings.
+/usr/local/emhttp/plugins/${plugin}/scripts/configure_file_activity ${INCLUDE_UD} ${INCLUDE_CACHE}
 
-if [ "$INCLUDE_UD" = "yes" ]; then
-	if [ -d "/mnt/disks" ]; then
-		echo "/mnt/disks" >> "$disks_file"
-	fi
-fi
-
-if [ "$INCLUDE_CACHE" = "yes" ]; then
-	if [ -d "/mnt/cache" ];then
-		echo "/mnt/cache" >> "$disks_file"
-	fi
-fi
 open_isdir="OPEN,ISDIR"
 
 # Create pid to show file activity is running.

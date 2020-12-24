@@ -57,14 +57,14 @@ $file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true)
 	> Set to 'Yes' to enable File Activity logging for Unassigned Devices if the Unassigned Devices plugin is installed.
 :end
 
-	_(Enable for Cache)_?
+	_(Enable for Cache and Pool)_?
 	: <select name="INCLUDE_CACHE" size="1">
 		<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "yes", "_(Yes)_");?>
 		<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "no", "_(No)_");?>
 	  </select>
 
 :file_activity_eenable_cache_plug:
-	> Set to 'Yes' to enable File Activity logging for the Cache Disk(s).
+	> Set to 'Yes' to enable File Activity logging for the Cache and Pool Disks.  Pool disks only apply in Unraid 6.9.
 :end
 
 	<input type="submit" name="#default" value="_(Default)_" title="Load and apply default values.">
