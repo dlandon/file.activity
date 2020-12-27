@@ -36,7 +36,9 @@ function is_array_disk($var) {
 
 /* Get all unraid disk devices (array disks, cache, and pool devices) */
 foreach ($disks as $key => $val) {
-	$all_disks[] = $key;
+	if ($val['device']) {
+		$all_disks[] = $key;
+	}
 }
 $array_disks = array_filter($all_disks, "is_array_disk");
 $pool_disks = array_diff($all_disks, $excluded_names);
