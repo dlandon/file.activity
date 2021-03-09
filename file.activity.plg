@@ -3,11 +3,11 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2020.12.27">
+<!ENTITY version    "2021.03.09">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"9b0be6d6727f5a1183b82972b883d044">
+<!ENTITY MD5		"1268aa81dcbf4cb4afeefc0200d99dff">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Plugin permissions.
+
+###2020.12.27
 - Fix: Check for mount point to exist before adding to the list of directories to monitor.
 
 ###2020.12.26
