@@ -112,7 +112,7 @@
 </CHANGES>
 
 <!--
-Copyright 2017-2018, Dan Landon
+Copyright 2017-2021, Dan Landon
 This is the webGUI plugin to view disk file activity.
 -->
 
@@ -153,9 +153,6 @@ mkdir /boot/config/plugins/&name; 2>/dev/null
 
 # Install the 'bundle'.
 tar -xf /boot/config/plugins/&name;/&name;-&version;.tgz -C /usr/local/emhttp/plugins 2>/dev/null
-
-# Adjust plugin permissions.
-chmod 755 -R /usr/local/emhttp/plugins/&name; 2>/dev/null
 </INLINE>
 </FILE>
 
