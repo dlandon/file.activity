@@ -37,14 +37,14 @@ $file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true)
 	<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
 	<input type="hidden" name="#arg[1]" value="update">
 
-	_(Enable File Activity Logging)_?
+	_(Enable File Activity Monitoring)_?
 	: <select name="SERVICE" size="1">
 		<?=mk_option($file_activity_cfg['SERVICE'], "disable", "_(No)_");?>
 		<?=mk_option($file_activity_cfg['SERVICE'], "enable", "_(Yes)_");?>
 	  </select>
 
 :file_activity_enable_logging_plug:
-	> Set to 'Yes' to enable File Activity logging when the server is started.
+	> Set to **Yes** to enable File Activity monitoring when the server is started.
 :end
 
 	_(Enable for Unassigned Devices)_?
@@ -54,7 +54,7 @@ $file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true)
 	  </select>
 
 :file_activity_enable_ud_plug:
-	> Set to 'Yes' to enable File Activity logging for Unassigned Devices if the Unassigned Devices plugin is installed.
+	> Set to **Yes** to enable File Activity monitoring for Unassigned Devices if the Unassigned Devices plugin is installed.
 :end
 
 	_(Enable for Cache and Pool)_?
@@ -64,7 +64,7 @@ $file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true)
 	  </select>
 
 :file_activity_enable_cache_plug:
-	> Set to 'Yes' to enable File Activity logging for the Cache and Pool Disks.  Pool disks only apply in Unraid 6.9.
+	> Set to **Yes** to enable File Activity monitoring for the Cache and Pool Disks.  Pool disks only apply in Unraid 6.9.
 :end
 
 	<input type="submit" name="#default" value="_(Default)_" title="Load and apply default values.">
