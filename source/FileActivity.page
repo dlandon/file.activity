@@ -48,18 +48,38 @@ $(function() {
 
 <?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
-/* Disk activity. */
-$disks = glob("/mnt/disk[^s]*");
-natcasesort($disks);
+
+$config_file = "/boot/config/plugins/{$plugin}/{$plugin}.cfg";
+$file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true) : array();
 $filesactive = "";
-foreach ($disks as $disk) {
-	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '{$disk}/'");
-	if (!empty($files)) {
-		$filesactive .= "<strong>** Disk ".substr($disk,9)." **</strong>\n";
-		$filesactive .= $files;
-		$filesactive .= "\n";
+
+if ($file_activity_cfg["LOG_BY"] == "share") {
+	/* Share activity. */
+	$shares = glob("/mnt/user/*");
+	natcasesort($shares);
+	foreach ($shares as $share) {
+		$share = basename($share);
+		$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '{$share}/'");
+		if ($files) {
+			$filesactive .= "<strong>** ".$share." **</strong>\n";
+			$filesactive .= $files;
+			$filesactive .= "\n";
+		}
+	}
+} else {
+	/* Disk activity. */
+	$disks = glob("/mnt/disk[^s]*");
+	natcasesort($disks);
+	foreach ($disks as $disk) {
+		$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '{$disk}/'");
+		if (!empty($files)) {
+			$filesactive .= "<strong>** Disk ".substr($disk,9)." **</strong>\n";
+			$filesactive .= $files;
+			$filesactive .= "\n";
+		}
 	}
 }
+
 /* UD disks activity. */
 $files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/disks/'");
 if (!empty($files)) {
@@ -67,6 +87,7 @@ if (!empty($files)) {
 	$filesactive .= $files;
 	$filesactive .= "\n";
 }
+
 /* Cache activity. */
 $files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/cache/'");
 if (!empty($files)) {
