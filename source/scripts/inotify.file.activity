@@ -15,7 +15,7 @@ open_isdir="OPEN,ISDIR"
 echo $$ > /var/run/${plugin}.pid
 
 # Monitor disks, UD disks, and cache disk.
-inotifywait -mrqs -e open,attrib,move,create,delete --excludei 'appdata/' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' --fromfile "$disks_file" | while read line
+inotifywait -mrqs -e open,attrib,move,create,delete,modify --excludei 'appdata/' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' --fromfile "$disks_file" | while read line
 do
 	if [ "${line/$open_isdir}" = "$line" ]; then
 		# Add line to log
