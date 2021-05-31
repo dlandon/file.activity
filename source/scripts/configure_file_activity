@@ -23,7 +23,7 @@ if (file_exists("plugins/unassigned.devices/include/lib.php")) {
 	$UD_installed = FALSE;
 }	
 
-$excluded_names = array("parity", "parity2", "parity2", "flash");
+$excluded_names = array("parity", "parity2", "flash");
 
 $INCLUDE_UD = (isset($argv[1])) ? $argv[1] : "no";
 $INCLUDE_CACHE = (isset($argv[2])) ? $argv[2] : "no";
