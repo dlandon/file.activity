@@ -78,8 +78,7 @@ _(Log Activity by Disk or Share)_?
 :end
 
 <input type="submit" name="#default" value="_(Default)_" title="Load and apply default values.">
-: <input type="submit" name="#apply" value="_(Apply)_">
-<button onclick="done()">_(Done)_</button>
+: <input type="submit" name="#apply" value="_(Apply)_"><input type="button" value="_(Done)_" onclick="done()">
 </form>
 </div>
 <?else:?>
