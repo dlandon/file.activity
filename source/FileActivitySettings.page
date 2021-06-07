@@ -2,7 +2,7 @@ Menu="FileActivity:2"
 Title="Settings"
 ---
 <?php
-/* Copyright 2017, Dan Landon
+/* Copyright 2017-2021, Dan Landon
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 2,
@@ -32,7 +32,7 @@ $file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true)
 
 <?if ($var['mdState']=="STARTED"):?>
 <div style="width: 70%; float:left">
-	<form markdown="1" name="tips_and_tweaks" method="POST" action="/update.php" target="progressFrame">
+	<form markdown="1" name="file_activity" method="POST" action="/update.php" target="progressFrame">
 	<input type="hidden" name="#file" value="file.activity/file.activity.cfg">
 	<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
 	<input type="hidden" name="#arg[1]" value="update">
