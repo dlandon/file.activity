@@ -26,7 +26,7 @@ require_once "$docroot/plugins/$plugin/include/Legacy.php";
 
 <script>
 $(function() {
-  showStatus('pid','file.activity');
+	showStatus('pid','file.activity');
 });
 </script>
 
@@ -58,8 +58,8 @@ if ($file_activity_cfg["LOG_BY"] == "share") {
 	$shares = glob("/mnt/user/*");
 	natcasesort($shares);
 	foreach ($shares as $share) {
-		$share = basename($share);
-		$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '{$share}/'");
+		$share_dev = basename($share)."/";
+		$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep ".escapeshellarg($share_dev));
 		if ($files) {
 			$filesactive .= "<strong>** ".$share." **</strong>\n";
 			$filesactive .= $files;
@@ -71,7 +71,8 @@ if ($file_activity_cfg["LOG_BY"] == "share") {
 	$disks = glob("/mnt/disk[^s]*");
 	natcasesort($disks);
 	foreach ($disks as $disk) {
-		$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '{$disk}/'");
+		$disk_dev = $disk."/";
+		$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep ".escapeshellarg($disk_dev));
 		if (!empty($files)) {
 			$filesactive .= "<strong>** Disk ".substr($disk,9)." **</strong>\n";
 			$filesactive .= $files;
