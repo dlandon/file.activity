@@ -3,11 +3,11 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2021.06.08">
+<!ENTITY version    "2021.08.21">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"ad889398dad1590913bfbc793f63194e">
+<!ENTITY MD5		"2370c6c32b4e21fc4585df17c4fcc80d">
 ]>
 
 <PLUGIN	name="&name;"
