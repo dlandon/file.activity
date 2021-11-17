@@ -57,7 +57,7 @@ _(Enable for Unassigned Devices)_?
 	> Set to **Yes** to enable File Activity monitoring for Unassigned Devices if the Unassigned Devices plugin is installed.
 :end
 
-_(Enable for Cache and Pool)_?
+_(Enable for Cache and Pool Disks)_?
 : <select name="INCLUDE_CACHE" size="1">
 	<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "yes", "_(Yes)_");?>
 	<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "no", "_(No)_");?>
