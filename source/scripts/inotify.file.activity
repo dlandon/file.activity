@@ -22,7 +22,7 @@ do
 		echo $line >> /var/log/${plugin}.log
 
 		# Trim log file if it is over 20000 lines
-		sed -i '20001,$ d' /var/log/${plugin}.log
+		sed -i -e :a -e '$q;N;20001,$D;ba' /var/log/${plugin}.log
 	fi
 done
 
