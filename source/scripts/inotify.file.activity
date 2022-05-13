@@ -5,8 +5,11 @@ plugin="file.activity"
 disks_file="/tmp/${plugin}/${plugin}.disks"
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
+PROG_NAME=${plugin}
 
-# Configure the disks_file baced on the file activity settings.
+logger "File Activity inotify starting" -t"$PROG_NAME"
+
+# Configure the disks_file based on the file activity settings.
 /usr/local/emhttp/plugins/${plugin}/scripts/configure_file_activity ${INCLUDE_UD} ${INCLUDE_CACHE}
 
 open_isdir=",ISDIR"
@@ -15,7 +18,7 @@ open_isdir=",ISDIR"
 echo $$ > /var/run/${plugin}.pid
 
 # Monitor disks, UD disks, and cache disk.
-inotifywait -mrqs -e open,attrib,move,create,delete,modify --excludei '(appdata|syslogs)' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' --fromfile "$disks_file" | while read line
+inotifywait -mrqs -e open,attrib,move,create,delete,modify --excludei '(appdata|syslogs)' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' --fromfile "${disks_file}" | while read line
 do
 	if [ "${line/$open_isdir}" = "$line" ]; then
 		# Add line to log
@@ -25,6 +28,8 @@ do
 		sed -i -e :a -e '$q;N;20001,$D;ba' /var/log/${plugin}.log
 	fi
 done
+
+logger "File Activity inotify exiting" -t"$PROG_NAME"
 
 # Remove pid file to show file activity is not running.
 rm -f /var/run/${plugin}.pid
