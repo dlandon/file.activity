@@ -28,7 +28,7 @@ file_activity_stop() {
 		echo "Stopping File Activity..."
 
 		# Kill all file activity processes.
-		for pid in $(ps -ef|grep .*inotifywait.*appdata | grep -v grep|awk "{ print \$2}")
+		for pid in $(ps -ef | grep .*inotifywait.*appdata | grep -v grep | awk "{ print \$2}")
 		do
 			kill $pid >/dev/null 2>&1
 		done	
