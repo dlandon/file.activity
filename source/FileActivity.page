@@ -28,6 +28,13 @@ require_once "$docroot/plugins/$plugin/include/Legacy.php";
 $(function() {
 	showStatus('pid','file.activity');
 });
+
+$(function() {
+	if ( typeof caPluginUpdateCheck === "function" ) {
+		caPluginUpdateCheck("file.activity.plg");
+	}
+});
+
 </script>
 
 <table class="tablesorter shift ups">
