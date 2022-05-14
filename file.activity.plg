@@ -3,11 +3,11 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2021.11.18">
+<!ENTITY version    "2022.05.14">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"744c915fd3d5e5560425b28fd9db03ae">
+<!ENTITY MD5		"f99d8bf881aac5206cab12a3051c679d">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Add: Additional logging for debugging.
+
+###2021.11.18
 - Fix: Log trim deleted the last lines and not the first lines.  Logging stopped after log filled.
 
 ###2021.08.21
@@ -127,7 +130,7 @@ Fix: Code cleanup.
 </CHANGES>
 
 <!--
-Copyright 2017-2021, Dan Landon
+Copyright 2017-2022, Dan Landon
 This is the webGUI plugin to view disk file activity.
 -->
 
@@ -176,8 +179,8 @@ tar -xf /boot/config/plugins/&name;/&name;-&version;.tgz -C /usr/local/emhttp/pl
 <![CDATA[
 SERVICE="disable"
 INCLUDE_UD="yes"
-INCLUDE_CACHE="yes"
-MAX_WATCHES="524288"
+INCLUDE_CACHE="no"
+LOG_BY="share"
 ]]>
 </INLINE>
 </FILE>
@@ -193,7 +196,7 @@ mkdir /tmp/&name; 2>/dev/null
 echo ""
 echo "-----------------------------------------------------------"
 echo " &name; is installed."
-echo " Copyright 2017-2021, &author;"
+echo " Copyright 2017-2022, &author;"
 echo " Version: &version;"
 echo "-----------------------------------------------------------"
 echo ""
