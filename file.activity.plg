@@ -3,11 +3,11 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2022.05.14a">
+<!ENTITY version    "2022.06.21">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY pluginURL	"https://github.com/dlandon/file.activity/raw/master/file.activity.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"8dd812cf05080a4579d67b6f6e06c840">
+<!ENTITY MD5		"e876ee92b16a5911fdd3c9c3a981c704">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Add: Exclude 'system' share from file activity.
+
+###2022.05.14a
 - Add: Additional logging for debugging.
 - Add: Plugin update check.
 
