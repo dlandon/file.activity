@@ -110,7 +110,7 @@ echo "</pre>";
 <script>
 <?if ($display['resize']):?>
 $(function() {
-  $('pre.up').css('height',Math.max(window.innerHeight-280,370)).show();
+  $('pre.up').css('height',Math.max(window.innerHeight-320,370)).show();
 });
 <?endif;?>
 </script>
