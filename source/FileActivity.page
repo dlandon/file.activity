@@ -53,6 +53,7 @@ $(function() {
 > Note: File Activity monitoring is stopped if the array is stopped, and will restart when the array is started if it is enabled.
 :end
 
+<br />
 <?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
 
@@ -103,14 +104,14 @@ if (!empty($files)) {
 	$filesactive .= $files;
 	$filesactive .= "\n";
 }
-echo "<br />".$filesactive;
+echo $filesactive;
 echo "</pre>";
 ?>
 
 <script>
 <?if ($display['resize']):?>
 $(function() {
-  $('pre.up').css('height',Math.max(window.innerHeight-360,370)).show();
+  $('pre.up').css('height',Math.max(window.innerHeight-400,370)).show();
 });
 <?endif;?>
 </script>
