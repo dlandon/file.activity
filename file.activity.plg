@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2023.02.10">
+<!ENTITY version    "2023.04.02">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"1d09cb13a823d73410ed4bb2d1037780">
+<!ENTITY MD5		"c0391d64ee7ae2607d927e63f1117d8e">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,10 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Remove -q from inotifywatch to log more information.
+- Add: Separate share and disk activity pages and remove log by disk or share option in settings.
+
+2023.02.10
 - Fix: Php compatibility for 6.12.
 
 ###2022.10.15b
@@ -193,7 +197,6 @@ tar -xf /boot/config/plugins/&name;/&name;-&version;.tgz -C /usr/local/emhttp/pl
 SERVICE="disable"
 INCLUDE_UD="yes"
 INCLUDE_CACHE="no"
-LOG_BY="share"
 ]]>
 </INLINE>
 </FILE>
