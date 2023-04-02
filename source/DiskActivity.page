@@ -1,0 +1,122 @@
+Menu="FileActivity:2"
+Title="Disk Activity"
+---
+<?php
+/* Copyright 2017-2023, Dan Landon
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ */
+
+$plugin = "file.activity";
+$docroot = $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
+$translations = file_exists("$docroot/webGui/include/Translations.php");
+require_once "$docroot/plugins/$plugin/include/Legacy.php";
+?>
+<?if (!$translations):?>
+<?eval('?>'.parse_file("$docroot/plugins/$plugin/FileActivity.page"))?>
+<?else:?>
+
+<table class="tablesorter shift ups">
+<thead><tr><th>_(Disk Activity)_</th></tr></thead>
+</table>
+
+:file_activity_loggging_plug:
+> File Activity Monitoring:
+>
+> File open, read, write, and modify activity is monitored and logged on the array using inotify and is displayed by disk or share, UD disks, and cache.
+> You need to start the File Activity in order to log the disk activity.
+> File Activity is intended to be running for short periods so you can check disk activity.
+> A server with a lot of file activity can fill the log space.
+> The 'appdata', 'Syslogs', and 'System' directories are excluded.
+>
+> Note: File Activity monitoring is stopped if the array is stopped, and will restart when the array is started if it is enabled.
+:end
+
+<br />
+<?
+echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
+
+$config_file = "/boot/config/plugins/{$plugin}/{$plugin}.cfg";
+$file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true) : array();
+$filesactive = "";
+
+/* Disk activity. */
+$disks = glob("/mnt/disk[^s]*");
+natcasesort($disks);
+foreach ($disks as $disk) {
+	$disk_dev = $disk."/";
+	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep ".escapeshellarg($disk_dev));
+	if (!empty($files)) {
+		$filesactive .= "<strong>** Disk ".substr($disk,9)." **</strong>\n";
+		$filesactive .= $files;
+		$filesactive .= "\n";
+	}
+}
+
+/* UD disks activity. */
+$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/disks/'");
+if (!empty($files)) {
+	$filesactive .= "<strong>** Unassigned Devices"." **</strong>\n";
+	$filesactive .= $files;
+	$filesactive .= "\n";
+}
+
+/* Cache activity. */
+$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/cache/'");
+if (!empty($files)) {
+	$filesactive .= "<strong>** Cache"." **</strong>\n";
+	$filesactive .= $files;
+	$filesactive .= "\n";
+}
+echo $filesactive;
+echo "</pre>";
+?>
+
+<script>
+<?if ($display['resize']):?>
+$(function() {
+  $('pre.up').css('height',Math.max(window.innerHeight-400,370)).show();
+});
+<?endif;?>
+</script>
+
+<?if ($var['mdState']=="STARTED"):?>
+	<?if (! is_file("/var/run/file.activity.pid")):?>
+	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
+		<form name="start_file_activity" method="POST" action="/update.php" target="progressFrame">
+			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+			<input type="hidden" name="#arg[1]" value="start">
+			<input type="submit" value="_(Start)_" title="_(Start File Activity)_">
+		</form>
+	</div>
+	<?else:?>
+	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
+		<form name="stop_file_activity" method="POST" action="/update.php" target="progressFrame">
+			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+			<input type="hidden" name="#arg[1]" value="stop">
+			<input type="submit" value="_(Stop)_" title="_(Stop File Activity Monitoring)_">
+		</form>
+	</div>
+	<?endif;?>
+	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
+		<input type="button" value="_(Refresh)_" title="_(Refresh Page)_" onclick="refresh()">
+	</div>
+	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
+		<form name="clear log" method="POST" action="/update.php" target="progressFrame">
+			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+			<input type="hidden" name="#arg[1]" value="clear">
+			<input type="submit" value="_(Clear)_" title="_(Clear the File Activity log)_">
+		</form>
+	</div>
+	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
+		<input type="button" value="_(Done)_" onclick="done()">
+	</div>
+<?else:?>
+	<p>Array is stopped!</p>
+<?endif;?>
+<?endif;?>
