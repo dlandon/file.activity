@@ -1,4 +1,4 @@
-Menu="FileActivity:2"
+Menu="FileActivity:3"
 Title="Settings"
 ---
 <?php
@@ -64,17 +64,7 @@ _(Enable for Cache and Pool Disks)_?
   </select>
 
 :file_activity_enable_cache_plug:
-	> Set to **Yes** to enable File Activity monitoring for the Cache and Pool Disks.  Pool disks only apply in Unraid 6.9.
-:end
-
-_(Log Activity by Disk or Share)_?
-: <select name="LOG_BY" size="1">
-	<?=mk_option($file_activity_cfg['LOG_BY'], "disk", "_(Disk)_");?>
-	<?=mk_option($file_activity_cfg['LOG_BY'], "share", "_(Share)_");?>
-  </select>
-
-:file_activity_log_by_plug:
-	> Set to **Disk** to log disk activity.  Set to **Share** to log share activity.
+	> Set to **Yes** to enable File Activity monitoring for the Cache and Pool Disks.  Pool disks only apply in Unraid 6.9 and later
 :end
 
 <input type="submit" name="#default" value="_(Default)_" title="Load and apply default values.">
