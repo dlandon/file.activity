@@ -1,4 +1,4 @@
-Menu="FileActivity:3"
+Menu="FileActivity:1"
 Title="Settings"
 ---
 <?php
@@ -59,8 +59,8 @@ _(Enable for Unassigned Devices)_?
 
 _(Enable for Cache and Pool Disks)_?
 : <select name="INCLUDE_CACHE" size="1">
-	<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "yes", "_(Yes)_");?>
 	<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "no", "_(No)_");?>
+	<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "yes", "_(Yes)_");?>
   </select>
 
 :file_activity_enable_cache_plug:
