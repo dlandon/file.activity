@@ -26,6 +26,18 @@ $config_file = "/boot/config/plugins/{$plugin}/{$plugin}.cfg";
 $file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true) : array();
 ?>
 
+<script>
+$(function() {
+	showStatus('pid','file.activity');
+});
+
+$(function() {
+	if ( typeof caPluginUpdateCheck === "function" ) {
+		caPluginUpdateCheck("file.activity.plg");
+	}
+});
+</script>
+
 <table class="tablesorter shift ups">
 <thead><tr><th>_(Settings)_</th></tr></thead>
 </table>
