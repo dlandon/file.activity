@@ -18,20 +18,20 @@ $disks_file="/tmp/".$plugin."/".$plugin.".disks";
 /* See if UD is installed */
 if (file_exists("plugins/unassigned.devices/include/lib.php")) {
 	require_once("plugins/unassigned.devices/include/lib.php");
-	$UD_installed = TRUE;
+	$UD_installed = true;
 } else {
-	$UD_installed = FALSE;
+	$UD_installed = false;
 }	
 
 $excluded_names = array("parity", "parity2", "flash");
 
-$INCLUDE_UD = (isset($argv[1])) ? $argv[1] : "no";
-$INCLUDE_CACHE = (isset($argv[2])) ? $argv[2] : "no";
+$INCLUDE_UD		= (isset($argv[1])) ? $argv[1] : "no";
+$INCLUDE_CACHE	= (isset($argv[2])) ? $argv[2] : "no";
 
 function is_array_disk($var) {
 
-	$rc = strpos($var, "disk");
-	return ($rc !== FALSE ? TRUE : FALSE);
+	$rc			= strpos($var, "disk");
+	return ($rc !== false ? true : false);
 }
 
 /* Get all unraid disk devices (array disks, cache, and pool devices) */
@@ -46,29 +46,31 @@ $array_disks = array_filter($all_disks, "is_array_disk");
 $pool_disks = array_diff($all_disks, $excluded_names);
 $pool_disks = array_diff($pool_disks, $array_disks);
 
-$ud_array = array();
-if ($INCLUDE_UD == "yes") {
+if (($UD_installed) && ($INCLUDE_UD == "yes")) {
 	/* If UD is installed, we need to exclude any samba and iso mounts */
-	if ($UD_installed) {
-		$ud_mounts = array();
-		foreach (glob("/mnt/disks/*") as $filename) {
-			$ud_mounts[] = "disks/".basename($filename);
-		}
+	$ud_mounts = array();
+	foreach (glob("/mnt/disks/*") as $filename) {
+		$ud_mounts[] = "disks/".basename($filename);
+	}
 
-		$excluded_shares = array();
-		/* Get the samba mounts */
-		$samba_mounts = get_samba_mounts();
-		foreach (get_samba_mounts() as $name => $info) {
-			$s = "disks/".basename($info['target']);
-			$excluded_shares[] .= $s;
-		}
-		/* Get ISO File Mounts */
-		foreach (get_iso_mounts() as $name => $info) {
-			$s = "disks/".basename($info['target']);
+	$excluded_shares = array();
+	/* Get the samba mounts */
+	$samba_mounts	= get_samba_mounts();
+	foreach (get_samba_mounts() as $name => $info) {
+		if ($info['target']) {
+			$s		= "disks/".basename($info['target']);
 			$excluded_shares[] .= $s;
 		}
 	}
+
+	/* Get ISO File Mounts */
+	foreach (get_iso_mounts() as $name => $info) {
+		$s			= "disks/".basename($info['target']);
+		$excluded_shares[] .= $s;
+	}
 	$ud_array = array_diff($ud_mounts, $excluded_shares);
+} else {
+	$ud_array = array();
 }
 
 if ($INCLUDE_CACHE == "no") {
