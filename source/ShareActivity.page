@@ -21,18 +21,6 @@ require_once "$docroot/plugins/$plugin/include/Legacy.php";
 <?eval('?>'.parse_file("$docroot/plugins/$plugin/FileActivity.page"))?>
 <?else:?>
 
-<script>
-$(function() {
-	showStatus('pid','file.activity');
-});
-
-$(function() {
-	if ( typeof caPluginUpdateCheck === "function" ) {
-		caPluginUpdateCheck("file.activity.plg");
-	}
-});
-</script>
-
 <table class="tablesorter shift ups">
 <thead><tr><th>_(Share Activity)_</th></tr></thead>
 </table>
