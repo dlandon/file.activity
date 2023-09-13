@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2023.06.15">
+<!ENTITY version    "2023.09.13">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"1906e00569b60b03cb4ecc916d9945f8">
+<!ENTITY MD5		"83fb284bb6afd5a477fc8d8c9737f559">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Php errors when UD is not installed.
+
+###2023.06.15
 - Fix: Rearrange tabs to be consistent with Unraid.
 
 ###2023.04.02
