@@ -47,7 +47,7 @@ echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class=
 
 $config_file		= "/boot/config/plugins/{$plugin}/{$plugin}.cfg";
 $file_activity_cfg	= is_file($config_file) ? @parse_ini_file($config_file, true) : array();
-$display_events		= ((! isset($file_activity_cfg['DISPLAY_EVENTS'])) || ($file_activity_cfg['DISPLAY_EVENTS'])) ? $file_activity_cfg['DISPLAY_EVENTS'] : "25";
+$display_events		= ((isset($file_activity_cfg['DISPLAY_EVENTS'])) && ($file_activity_cfg['DISPLAY_EVENTS'])) ? $file_activity_cfg['DISPLAY_EVENTS'] : "25";
 $filesactive		= "";
 
 /* Disk activity. */
