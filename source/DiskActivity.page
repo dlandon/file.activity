@@ -12,10 +12,14 @@ Title="Disk Activity"
  * all copies or substantial portions of the Software.
  */
 
-$plugin = "file.activity";
-$docroot = $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
-$translations = file_exists("$docroot/webGui/include/Translations.php");
+$plugin			= "file.activity";
+$docroot		= $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
+$translations	= file_exists("$docroot/webGui/include/Translations.php");
 require_once "$docroot/plugins/$plugin/include/Legacy.php";
+
+$config_file		= "/boot/config/plugins/{$plugin}/{$plugin}.cfg";
+$file_activity_cfg	= is_file($config_file) ? @parse_ini_file($config_file, true) : array();
+$display_events		= $file_activity_cfg['DISPLAY_EVENTS'] ?? "50";
 ?>
 <?if (!$translations):?>
 <?eval('?>'.parse_file("$docroot/plugins/$plugin/FileActivity.page"))?>
@@ -41,16 +45,17 @@ require_once "$docroot/plugins/$plugin/include/Legacy.php";
 <?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
 
-$config_file = "/boot/config/plugins/{$plugin}/{$plugin}.cfg";
-$file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true) : array();
-$filesactive = "";
+$config_file		= "/boot/config/plugins/{$plugin}/{$plugin}.cfg";
+$file_activity_cfg	= is_file($config_file) ? @parse_ini_file($config_file, true) : array();
+$display_events		= ((! isset($file_activity_cfg['DISPLAY_EVENTS'])) || ($file_activity_cfg['DISPLAY_EVENTS'])) ? $file_activity_cfg['DISPLAY_EVENTS'] : "25";
+$filesactive		= "";
 
 /* Disk activity. */
 $disks = glob("/mnt/disk[^s]*");
 natcasesort($disks);
 foreach ($disks as $disk) {
 	$disk_dev = $disk."/";
-	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep ".escapeshellarg($disk_dev));
+	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep ".escapeshellarg($disk_dev)." | tail -n ".escapeshellarg($display_events));
 	if (!empty($files)) {
 		$filesactive .= "<strong>** Disk ".substr($disk,9)." **</strong>\n";
 		$filesactive .= $files;
@@ -59,7 +64,7 @@ foreach ($disks as $disk) {
 }
 
 /* UD disks activity. */
-$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/disks/'");
+$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/disks/'"." | tail -n ".escapeshellarg($display_events));
 if (!empty($files)) {
 	$filesactive .= "<strong>** Unassigned Devices"." **</strong>\n";
 	$filesactive .= $files;
@@ -67,9 +72,9 @@ if (!empty($files)) {
 }
 
 /* Cache activity. */
-$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/cache/'");
+$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/*'"." | grep -v 'disk' | tail -n ".escapeshellarg($display_events));
 if (!empty($files)) {
-	$filesactive .= "<strong>** Cache"." **</strong>\n";
+	$filesactive .= "<strong>** Cache and Pools"." **</strong>\n";
 	$filesactive .= $files;
 	$filesactive .= "\n";
 }

@@ -12,9 +12,9 @@ Title="Share Activity"
  * all copies or substantial portions of the Software.
  */
 
-$plugin = "file.activity";
-$docroot = $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
-$translations = file_exists("$docroot/webGui/include/Translations.php");
+$plugin			= "file.activity";
+$docroot		= $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
+$translations	= file_exists("$docroot/webGui/include/Translations.php");
 require_once "$docroot/plugins/$plugin/include/Legacy.php";
 ?>
 <?if (!$translations):?>
@@ -41,16 +41,17 @@ require_once "$docroot/plugins/$plugin/include/Legacy.php";
 <?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
 
-$config_file = "/boot/config/plugins/{$plugin}/{$plugin}.cfg";
-$file_activity_cfg = is_file($config_file) ? @parse_ini_file($config_file, true) : array();
-$filesactive = "";
+$config_file		= "/boot/config/plugins/{$plugin}/{$plugin}.cfg";
+$file_activity_cfg	= is_file($config_file) ? @parse_ini_file($config_file, true) : array();
+$display_events		= ((! isset($file_activity_cfg['DISPLAY_EVENTS'])) || ($file_activity_cfg['DISPLAY_EVENTS'])) ? $file_activity_cfg['DISPLAY_EVENTS'] : "25";
+$filesactive		= "";
 
 /* Share activity. */
 $shares = glob("/mnt/user/*");
 natcasesort($shares);
 foreach ($shares as $share) {
 	$share_dev = basename($share)."/";
-	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep ".escapeshellarg($share_dev));
+	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep ".escapeshellarg($share_dev)." | tail -n ".escapeshellarg($display_events));
 	if ($files) {
 		$filesactive .= "<strong>** ".$share." **</strong>\n";
 		$filesactive .= $files;

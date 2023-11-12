@@ -10,10 +10,10 @@
  * all copies or substantial portions of the Software.
  */
 
-$docroot = $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
-$disks = @parse_ini_file("$docroot/state/disks.ini", true);
-$plugin="file.activity";
-$disks_file="/tmp/".$plugin."/".$plugin.".disks";
+$docroot		= $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
+$disks			= @parse_ini_file("$docroot/state/disks.ini", true);
+$plugin			="file.activity";
+$disks_file		="/tmp/".$plugin."/".$plugin.".disks";
 
 /* See if UD is installed */
 if (file_exists("plugins/unassigned.devices/include/lib.php")) {
