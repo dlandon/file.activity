@@ -71,12 +71,14 @@ if (!empty($files)) {
 	$filesactive .= "\n";
 }
 
-/* Cache activity. */
-$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/*'"." | grep -v 'disk' | tail -n ".escapeshellarg($display_events));
-if (!empty($files)) {
-	$filesactive .= "<strong>** Cache and Pools"." **</strong>\n";
-	$filesactive .= $files;
-	$filesactive .= "\n";
+/* Cache and pools activity. */
+foreach ($pools as $pool) {
+	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/".$pool."'"." | tail -n ".escapeshellarg($display_events));
+	if (!empty($files)) {
+		$filesactive .= "<strong>** ".ucfirst($pool)." **</strong>\n";
+		$filesactive .= $files;
+		$filesactive .= "\n";
+	}
 }
 echo $filesactive;
 echo "</pre>";
