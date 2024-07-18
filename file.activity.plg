@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2024.04.01">
+<!ENTITY version    "2024.07.17">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"6a4dfb9f637041a813f5ebe747d0e46d">
+<!ENTITY MD5		"12b2379d0c103dbb135811f27c5228ed">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Separate Pools in the 'Disk Activity' tab.
+
+###2024.04.01
 - Fix: Filter the disk share to prevent missing the right share folder and showing incorrect folders.
 
 ###2024.11.12a
