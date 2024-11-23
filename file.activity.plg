@@ -217,6 +217,13 @@ tar -xf /boot/config/plugins/&name;/&name;-&version;.tgz -C /usr/local/emhttp/pl
 </INLINE>
 </FILE>
 
+<FILE Name="/boot/config/plugins/&name;/&name;.cfg">
+<INLINE>
+<![CDATA[
+]]>
+</INLINE>
+</FILE>
+
 <!--
 The 'post-install' script.
 -->
