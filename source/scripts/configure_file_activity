@@ -10,10 +10,18 @@
  * all copies or substantial portions of the Software.
  */
 
-$docroot		= $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
-$disks			= @parse_ini_file("$docroot/state/disks.ini", true);
-$plugin			="file.activity";
-$disks_file		="/tmp/".$plugin."/".$plugin.".disks";
+/* Define our plugin name. */
+if (!defined('FILE_ACTIVITY_PLUGIN')) {
+	define('FILE_ACTIVITY_PLUGIN', 'file.activity');
+}
+
+/* Define the docroot path. */
+if (!defined('DOCROOT')) {
+	define('DOCROOT', $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp');
+}
+
+$disks			= @parse_ini_file(DOCROOT."/state/disks.ini", true);
+$disks_file		="/tmp/".FILE_ACTIVITY_PLUGIN."/".FILE_ACTIVITY_PLUGIN.".disks";
 
 /* See if UD is installed */
 if (file_exists("plugins/unassigned.devices/include/lib.php")) {
