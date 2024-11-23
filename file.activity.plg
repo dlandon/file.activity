@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2024.07.17">
+<!ENTITY version    "2024.11.23">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"12b2379d0c103dbb135811f27c5228ed">
+<!ENTITY MD5		"569d71a669f0b0169d06059d89116617">
 ]>
 
 <PLUGIN	name="&name;"
@@ -17,11 +17,19 @@
 		pluginURL="&pluginURL;"
 		support="&supportURL;"
 		icon="folder"
-		min="6.7.0">
+		min="6.11.0">
 
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Change min Unraid version to 6.11.
+- Fix: Handling of default.cfg to default first install settings.
+- Fix: Change some php variables to constants that don't need to be variables.
+- Fix_ Cut down on config file reads.
+- Fix: Update help text.
+- Add: Exclude the 'docker' share.
+
+###2024.07.17
 - Fix: Separate Pools in the 'Disk Activity' tab.
 
 ###2024.04.01
@@ -209,17 +217,6 @@ tar -xf /boot/config/plugins/&name;/&name;-&version;.tgz -C /usr/local/emhttp/pl
 </INLINE>
 </FILE>
 
-<FILE Name="/boot/config/plugins/&name;/&name;.cfg">
-<INLINE>
-<![CDATA[
-SERVICE="disable"
-INCLUDE_UD="yes"
-INCLUDE_CACHE="no"
-DISPLAY_EVENTS=""
-]]>
-</INLINE>
-</FILE>
-
 <!--
 The 'post-install' script.
 -->
@@ -247,7 +244,6 @@ The 'remove' script.
 /usr/local/emhttp/plugins/&name;/scripts/rc.&name; stop 2>/dev/null
 
 # Remove all plugin files.
-rm -rf /boot/config/plugins/&name; 2>/dev/null
 rm -rf /usr/local/emhttp/plugins/&name; 2>/dev/null
 
 echo ""
