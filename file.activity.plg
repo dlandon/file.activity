@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2024.11.25">
+<!ENTITY version    "2025.01.17">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"457ce94921ce806c48abe3e1cfc1293a">
+<!ENTITY MD5		"35a4bfb632b2bd0abe1fca4ab9d63dd1">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,10 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Rework html for reliability and robustness.
+- Fix: Start File Activity in the background after a delay to speed up array start up.
+
+###2024.11.25
 - Add: Increase max_user_watches if needed for inotify so it does not fail to start.
 
 ###2024.11.23
@@ -176,7 +180,7 @@ Fix: Code cleanup.
 </CHANGES>
 
 <!--
-Copyright 2017-2024, Dan Landon
+Copyright 2017-2025, Dan Landon
 This is the webGUI plugin to view disk file activity.
 -->
 
@@ -238,7 +242,7 @@ mkdir /tmp/&name; 2>/dev/null
 echo ""
 echo "-----------------------------------------------------------"
 echo " &name; is installed."
-echo " Copyright 2017-2024, &author;"
+echo " Copyright 2017-2025, &author;"
 echo " Version: &version;"
 echo "-----------------------------------------------------------"
 echo ""
