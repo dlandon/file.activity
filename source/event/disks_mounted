@@ -7,5 +7,5 @@ source $CONFIG
 
 # Start file activity if it is enabled.
 if [ "$SERVICE" = "enable" ]; then
-	/usr/local/emhttp/plugins/${plugin}/scripts/rc.${plugin} start
+	echo "/usr/local/emhttp/plugins/${plugin}/scripts/rc.${plugin} start" | at now + 2 minutes > /dev/null 2>&1
 fi
