@@ -17,9 +17,9 @@ file_activity_start() {
 		dir_count=0
 
 		# Loop through each mount point in the file
-		while IFS= read -r mount_point; do
+		while IFS= read -r mount_point || [ -n "$mount_point" ]; do
 			if [ -d "$mount_point" ]; then
-				# Count directories in the mount point
+				# Use find only when the directory exists
 				count=$(find "$mount_point" -type d 2>/dev/null | wc -l)
 				dir_count=$((dir_count + count))
 			fi
