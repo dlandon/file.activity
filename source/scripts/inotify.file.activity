@@ -12,10 +12,39 @@ logger "File Activity inotify starting" -t"$PROG_NAME"
 # Configure the disks_file based on the file activity settings.
 /usr/local/emhttp/plugins/${plugin}/scripts/configure_file_activity ${INCLUDE_UD} ${INCLUDE_CACHE}
 
-open_isdir=",ISDIR"
+# Initialize directory count
+dir_count=0
 
-# Create pid to show file activity is running.
-echo $$ > /var/run/${plugin}.pid
+# Loop through each mount point in the file
+while IFS= read -r mount_point || [ -n "$mount_point" ]; do
+	if [ -d "$mount_point" ]; then
+		# Use find only when the directory exists
+		count=$(find "$mount_point" -type d 2>/dev/null | wc -l)
+		dir_count=$((dir_count + count))
+	fi
+done < "$disks_file"
+
+# Calculate the required watches with a 10% buffer
+required_watches=$((dir_count + (dir_count / 10)))
+
+# Find the current inotify watches being used
+current_watches=$(find /proc/*/fd -lname anon_inode:inotify | cut -d/ -f5 | grep -v 'no such file or directory' | awk '{s+=$1} END {print s}')
+
+# Calculate the new limit
+new_limit=$((current_watches + required_watches))
+
+# Check the current maximum limit
+current_limit=$(cat /proc/sys/fs/inotify/max_user_watches)
+
+# Update the limit if necessary
+if [ "$new_limit" -gt "$current_limit" ]; then
+	logger "Updating inotify max_user_watches from '$current_limit' to '$new_limit'" -t"$PROG_NAME"
+
+	# Set the inotify max_user_watches.
+	sysctl -qw fs.inotify.max_user_watches="$new_limit" > /dev/null
+fi
+
+open_isdir=",ISDIR"
 
 # Monitor disks, UD disks, and cache disk.
 inotifywait -mrs -e open,attrib,move,create,delete,modify --excludei '(appdata|docker|syslogs|system)' --timefmt '%b %d %H:%M:%S' --format '%T %e => %w%f' --fromfile "${disks_file}" | while read line
