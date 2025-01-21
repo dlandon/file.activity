@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2025.01.17">
+<!ENTITY version    "2025.01.21">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"35a4bfb632b2bd0abe1fca4ab9d63dd1">
+<!ENTITY MD5		"ea746e116eedaaed9f66ed50dc698138">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,10 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Start up not working properly.
+- Fix: Start/stop status not always correct.
+
+###2025.01.17
 - Fix: Rework html for reliability and robustness.
 - Fix: Start File Activity in the background after a delay to speed up array start up.
 
