@@ -20,9 +20,6 @@ if (!defined('DOCROOT')) {
 	define('DOCROOT', $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp');
 }
 
-/* read translations */
-parse_plugin('FileActivitySettings');
-
 /* Parse the plugin config file. */
 $file_activity_cfg	= parse_plugin_cfg(FILE_ACTIVITY_PLUGIN, true);
 ?>
