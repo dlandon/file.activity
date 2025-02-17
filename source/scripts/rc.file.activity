@@ -29,7 +29,7 @@ file_activity_stop() {
 		logger "Stopping File Activity" -t"$PROG_NAME"
 
 		# Kill all file activity processes.
-		for pid in $(ps -ef | grep .*inotifywait.*appdata | grep -v grep | awk "{ print \$2}")
+		for pid in $(ps -eo pid,cmd | grep 'inotifywait' | grep 'file.activity' | grep -v grep | awk '{print $1}')
 		do
 			kill $pid >/dev/null 2>&1
 		done	
