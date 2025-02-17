@@ -34,7 +34,7 @@ current_watches=$(find /proc/*/fd -lname anon_inode:inotify | cut -d/ -f5 | grep
 new_limit=$((current_watches + required_watches))
 
 # Check the current maximum limit
-current_limit=$(cat /proc/sys/fs/inotify/max_user_watches)
+current_limit=$(/usr/bin/cat /proc/sys/fs/inotify/max_user_watches)
 
 # Update the limit if necessary
 if [ "$new_limit" -gt "$current_limit" ]; then
