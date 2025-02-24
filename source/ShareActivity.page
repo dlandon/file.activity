@@ -1,5 +1,6 @@
 Menu="FileActivity:2"
 Title="Share Activity"
+Cond="$var['mdState'] == 'STARTED'"
 ---
 <?php
 /* Copyright 2017-2025, Dan Landon
@@ -14,7 +15,7 @@ Title="Share Activity"
 ?>
 
 <table class="tablesorter shift ups">
-<thead><tr><th>_(Share Activity)_</th></tr></thead>
+<thead><tr><th>_(Share File Activity)_</th></tr></thead>
 </table>
 
 <br>
@@ -49,37 +50,16 @@ $(function() {
 <?endif;?>
 </script>
 
-<?if ($var['mdState']=="STARTED"):?>
-	<?if (! is_file("/var/run/file.activity.pid")):?>
-	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
-		<form name="start_file_activity" method="POST" action="/update.php" target="progressFrame">
-			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
-			<input type="hidden" name="#arg[1]" value="start">
-			<input type="submit" value="_(Start)_" title="_(Start File Activity)_">
-		</form>
-	</div>
-	<?else:?>
-	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
-		<form name="stop_file_activity" method="POST" action="/update.php" target="progressFrame">
-			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
-			<input type="hidden" name="#arg[1]" value="stop">
-			<input type="submit" value="_(Stop)_" title="_(Stop File Activity Monitoring)_">
-		</form>
-	</div>
-	<?endif;?>
-	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
-		<input type="button" value="_(Refresh)_" title="_(Refresh Page)_" onclick="refresh()">
-	</div>
-	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
-		<form name="clear log" method="POST" action="/update.php" target="progressFrame">
-			<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
-			<input type="hidden" name="#arg[1]" value="clear">
-			<input type="submit" value="_(Clear)_" title="_(Clear the File Activity log)_">
-		</form>
-	</div>
-	<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
-		<input type="button" value="_(Done)_" onclick="done()">
-	</div>
-<?else:?>
-	<p>Array is stopped!</p>
-<?endif;?>
+<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
+	<input type="button" value="_(Refresh)_" title="_(Refresh Page)_" onclick="refresh()">
+</div>
+<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
+	<form name="clear log" method="POST" action="/update.php" target="progressFrame">
+		<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+		<input type="hidden" name="#arg[1]" value="clear">
+		<input type="submit" value="_(Clear)_" title="_(Clear the File Activity log)_">
+	</form>
+</div>
+<div style="position:relative;float:left;text-align:right;margin-bottom:24px">
+	<input type="button" value="_(Done)_" onclick="done()">
+</div>
