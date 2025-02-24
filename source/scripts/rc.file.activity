@@ -10,7 +10,7 @@ file_activity_start() {
 		logger "Starting File Activity" -t"$PROG_NAME"
 
 		# Start inotify script to monitor disk events
-		at -M -f /usr/local/emhttp/plugins/file.activity/scripts/inotify.file.activity now + 2 minutes > /dev/null 2>&1
+		/usr/local/emhttp/plugins/file.activity/scripts/inotify.file.activity >/dev/null 2>&1 & disown
 
 		# Create pid to show file activity is running.
 		echo $$ > /var/run/${plugin}.pid
