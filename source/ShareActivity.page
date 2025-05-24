@@ -1,5 +1,6 @@
 Menu="FileActivity:2"
 Title="Share Activity"
+Tag="share"
 Cond="$var['mdState'] == 'STARTED'"
 ---
 <?php

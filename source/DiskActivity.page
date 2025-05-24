@@ -1,5 +1,6 @@
 Menu="FileActivity:3"
 Title="Disk Activity"
+Tag="hdd-o"
 Cond="$var['mdState'] == 'STARTED'"
 ---
 <?php
