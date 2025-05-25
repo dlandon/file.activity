@@ -1,5 +1,5 @@
 Menu="FileActivity:3"
-Title="Disk Activity"
+Title="Disk and Pool Activity"
 Tag="hdd-o"
 Cond="$var['mdState'] == 'STARTED'"
 ---
@@ -16,7 +16,7 @@ Cond="$var['mdState'] == 'STARTED'"
 ?>
 
 <table class="tablesorter shift ups">
-<thead><tr><th>_(Disk File Activity)_</th></tr></thead>
+<thead><tr><th>_(Disk and Pool File Activity)_</th></tr></thead>
 </table>
 
 <br>
