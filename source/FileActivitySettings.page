@@ -1,5 +1,6 @@
 Menu="FileActivity:1"
 Title="Settings"
+Tag="gear"
 ---
 <?php
 /* Copyright 2017-2025, Dan Landon
