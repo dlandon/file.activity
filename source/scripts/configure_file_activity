@@ -2,12 +2,9 @@
 <?php
 /* Copyright 2020-2025, Dan Landon
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 2,
- * as published by the Free Software Foundation.
+ * Permission is granted to use this software for personal, educational, or internal use only.
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * Commercial use, redistribution, or modification of this software or any derived works is strictly prohibited without prior written permission.
  */
 
 /* Define our plugin name. */
