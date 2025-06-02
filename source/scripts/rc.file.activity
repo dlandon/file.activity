@@ -1,6 +1,4 @@
 #!/bin/bash
-# Usage:
-# start|stop|clear|update.
 #
 # Copyright 2020-2025, Dan Landon
 #
@@ -8,6 +6,8 @@
 #
 # Commercial use, redistribution, or modification of this software or any derived works is strictly prohibited without prior written permission.
 #
+# Usage:
+# start|stop|clear|update.
 
 file_activity_start() {
 	# Is file activity running?
@@ -68,6 +68,11 @@ PROG_NAME=${plugin}
 
 case "$1" in
 	'start')
+		# The second parameter is a startup delay.
+		if [[ -n "$2" && "$2" =~ ^[0-9]+$ ]]; then
+			logger "Waiting ${2} seconds before starting." -t"$PROG_NAME"
+			sleep "$2"
+		fi
 		file_activity_start
 	;;
 	'stop')
