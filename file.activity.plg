@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2025.05.28">
+<!ENTITY version    "2025.06.02">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"aec62c6bc74e36d9fe2fd2c1362e90e9">
+<!ENTITY MD5		"1bb623be503e1cf83cdab029eb5b2f74">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,10 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Issue with starting the file activity when installing the plugin.  You'll need to restart file activity after updating the plugin.
+- Fix: Cache and pool disks not excluded properly when set to 'No'.
+
+###2025.05.28
 - Fix: Update license.
 
 ###2025.05.28
@@ -261,15 +265,6 @@ The 'post-install' script.
 <INLINE>
 # Create disks file directory.
 mkdir /tmp/&name; 2>/dev/null
-
-# Read configuration parameters
-CONFIG="/boot/config/plugins/&name;/&name;.cfg"
-source $CONFIG
-
-# Start file activity if it is enabled.
-if [ "$SERVICE" = "enable" ]; then
-	/usr/local/emhttp/plugins/&name;/scripts/rc.&name; start 2>/dev/null
-fi
 
 echo ""
 echo "-----------------------------------------------------------"
