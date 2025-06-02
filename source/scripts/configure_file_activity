@@ -17,8 +17,9 @@ if (!defined('DOCROOT')) {
 	define('DOCROOT', $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp');
 }
 
-$disks			= @parse_ini_file(DOCROOT."/state/disks.ini", true);
-$disks_file		="/tmp/".FILE_ACTIVITY_PLUGIN."/".FILE_ACTIVITY_PLUGIN.".disks";
+$disks_ini	= @parse_ini_file(DOCROOT."/state/disks.ini", true);
+$disks		= ($disks_ini !== false) ? $disks_ini : [];
+$disks_file	="/tmp/".FILE_ACTIVITY_PLUGIN."/".FILE_ACTIVITY_PLUGIN.".disks";
 
 /* See if UD is installed */
 if (file_exists("plugins/unassigned.devices/include/lib.php")) {
@@ -34,12 +35,14 @@ $INCLUDE_SSD	= (isset($argv[1])) ? $argv[1] : "no";
 $INCLUDE_UD		= (isset($argv[2])) ? $argv[2] : "no";
 $INCLUDE_CACHE	= (isset($argv[3])) ? $argv[3] : "no";
 
-function is_array_disk($var) {
-	/* An array or pool disk is any disk not starting with 'parity' or 'flash' */
-	$rc = true;
+echo("$INCLUDE_SSD $INCLUDE_UD $INCLUDE_CACHE\n");
 
-	if (strpos($var, 'parity') === 0 || strpos($var, 'flash') === 0)
-		$rc = false;
+function is_array_disk($var) {
+	/* An array disk is 'disk' followed by 1 or 2 digits only */
+	$rc = false;
+
+	if (preg_match('/^disk\d{1,2}$/', $var))
+		$rc = true;
 
 	return $rc;
 }
@@ -79,6 +82,7 @@ if (($UD_installed) && ($INCLUDE_UD == "yes")) {
 if ($INCLUDE_CACHE == "no") {
 	$pool_disks = array();
 }
+
 $disks_array = array_merge($array_disks, $pool_disks);
 $disks_array = array_merge($disks_array, $ud_array);
 
