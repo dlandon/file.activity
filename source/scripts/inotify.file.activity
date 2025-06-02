@@ -64,8 +64,10 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "/var/run/${inotify}.pid" ]; then
 	# Cleanup function
 	cleanup() {
 		logger "File Activity inotify exiting" -t"$PROG_NAME"
-		rm -f /var/run/${inotify}.pid  # Remove PID file
-		[ -p "$FIFO_PATH" ] && rm -f "$FIFO_PATH"  # Remove FIFO if it exists
+		kill "$inotify_pid" 2>/dev/null
+		wait "$inotify_pid" 2>/dev/null
+		rm -f /var/run/${inotify}.pid
+		[ -p "$FIFO_PATH" ] && rm -f "$FIFO_PATH"
 		exit 0
 	}
 
