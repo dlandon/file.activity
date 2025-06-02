@@ -6,14 +6,13 @@
 #
 # Commercial use, redistribution, or modification of this software or any derived works is strictly prohibited without prior written permission.
 #
-# Read in the configuration.
-#
 
+# Read in the configuration.
 plugin="file.activity"
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
 
 # Start file activity if it is enabled.
 if [ "$SERVICE" = "enable" ]; then
-	/usr/local/emhttp/plugins/${plugin}/scripts/rc.${plugin} start 1>/dev/null
+	/usr/local/emhttp/plugins/${plugin}/scripts/rc.${plugin} start 10 1>/dev/null &
 fi
