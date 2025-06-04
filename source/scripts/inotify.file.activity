@@ -64,9 +64,13 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "/var/run/${inotify}.pid" ]; then
 	# Cleanup function
 	cleanup() {
 		logger "File Activity inotify exiting" -t"$PROG_NAME"
+
 		kill "$inotify_pid" 2>/dev/null
 		wait "$inotify_pid" 2>/dev/null
+
+		# Remove PID file
 		rm -f /var/run/${inotify}.pid
+
 		[ -p "$FIFO_PATH" ] && rm -f "$FIFO_PATH"
 		exit 0
 	}
@@ -83,6 +87,9 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "/var/run/${inotify}.pid" ]; then
 		--timefmt '%b %d %H:%M:%S' \
 		--format '%T %e => %w%f' \
 		--fromfile "${disks_file}" > "$FIFO_PATH" &
+
+	# Get the inotifywait pid.
+	inotify_pid=$!
 
 	# Read from FIFO
 	while IFS= read -r line < "$FIFO_PATH"
