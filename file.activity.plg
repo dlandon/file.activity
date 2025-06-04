@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2025.06.02">
+<!ENTITY version    "2025.06.04">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"1bb623be503e1cf83cdab029eb5b2f74">
+<!ENTITY MD5		"e37479991eee02b31055f4a5b021b580">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: inotify not stopped properly when stopping file activity.
+
+###2025.06.02
 - Fix: Issue with starting the file activity when installing the plugin.  You'll need to restart file activity after updating the plugin.
 - Fix: Cache and pool disks not excluded properly when set to 'No'.
 
