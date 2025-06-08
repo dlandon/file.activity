@@ -35,8 +35,6 @@ $INCLUDE_SSD	= (isset($argv[1])) ? $argv[1] : "no";
 $INCLUDE_UD		= (isset($argv[2])) ? $argv[2] : "no";
 $INCLUDE_CACHE	= (isset($argv[3])) ? $argv[3] : "no";
 
-echo("$INCLUDE_SSD $INCLUDE_UD $INCLUDE_CACHE\n");
-
 function is_array_disk($var) {
 	/* An array disk is 'disk' followed by 1 or 2 digits only */
 	$rc = false;
