@@ -107,6 +107,15 @@ _(Display Events)_ :
 
 <input type="submit" name="#default" value="_(Default)_" title="Load and apply default values.">
 : <span class="inline-block">
+	<?if (! is_file("/var/run/file.activity.pid")):?>
+	<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+	<input type="hidden" name="#arg[1]" value="start">
+	<input type="submit" value="_(Start)_" title="_(Start File Activity Monitoring)_">
+	<?else:?>
+	<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
+	<input type="hidden" name="#arg[1]" value="stop">
+	<input type="submit" value="_(Stop)_" title="_(Stop File Activity Monitoring)_">
+	<?endif;?>
 	<input type="submit" name="#apply" value="_(Apply)_"><input type="button" value="_(Done)_" onclick="done()">
 </span>
 </form>
