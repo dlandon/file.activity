@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2025.06.08a">
+<!ENTITY version    "2025.06.10">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"57abf4db02faf2d985a02422122d5660">
+<!ENTITY MD5		"e39f56fc19de4556bec12fff25ff8777">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,10 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: UI page size adjustment.
+- Add: 'Download' button to download the complete file activity log.
+
+###2025.06.08a
 - Fix: Remove debug statement.
 - Add: 'Start' and 'Stop" buttons that were removed.
 
@@ -34,8 +38,6 @@
 
 ###2025.05.28
 - Fix: Update license.
-
-###2025.05.28
 - Fix: Excluded directories not case insensitive.
 - Fix: Change settings tab icon to a font awesome.
 
