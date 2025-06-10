@@ -22,13 +22,14 @@ echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class=
 
 $display_events		= ((isset($file_activity_cfg['DISPLAY_EVENTS'])) && ($file_activity_cfg['DISPLAY_EVENTS'])) ? $file_activity_cfg['DISPLAY_EVENTS'] : "25";
 $filesactive		= "";
+$file_activity_log	= "/var/log/file.activity.log";
 
 /* Disk activity. */
 $disks = glob("/mnt/disk[^s]*");
 natcasesort($disks);
 foreach ($disks as $disk) {
 	$disk_dev = $disk."/";
-	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep ".escapeshellarg($disk_dev)." | tail -n ".escapeshellarg($display_events));
+	$files = shell_exec("cat ".$file_activity_log." 2>/dev/null | grep ".escapeshellarg($disk_dev)." | tail -n ".escapeshellarg($display_events));
 	if (!empty($files)) {
 		$filesactive .= "<strong>** Disk ".substr($disk,9)." **</strong>\n";
 		$filesactive .= $files;
@@ -37,7 +38,7 @@ foreach ($disks as $disk) {
 }
 
 /* UD disks activity. */
-$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/disks/'"." | tail -n ".escapeshellarg($display_events));
+$files = shell_exec("cat ".$file_activity_log." 2>/dev/null | grep '/mnt/disks/'"." | tail -n ".escapeshellarg($display_events));
 if (!empty($files)) {
 	$filesactive .= "<strong>** Unassigned Devices"." **</strong>\n";
 	$filesactive .= $files;
@@ -46,7 +47,7 @@ if (!empty($files)) {
 
 /* Cache and pools activity. */
 foreach ($pools as $pool) {
-	$files = shell_exec("cat /var/log/file.activity.log 2>/dev/null | grep '/mnt/".$pool."'"." | tail -n ".escapeshellarg($display_events));
+	$files = shell_exec("cat ".$file_activity_log." 2>/dev/null | grep '/mnt/".$pool."'"." | tail -n ".escapeshellarg($display_events));
 	if (!empty($files)) {
 		$filesactive .= "<strong>** ".ucfirst($pool)." **</strong>\n";
 		$filesactive .= $files;
@@ -64,11 +65,3 @@ echo "</pre>";
 	<input type="submit" value="_(Clear)_" title="_(Clear the File Activity log)_">
 	<input type="button" value="_(Done)_" onclick="done()">
 </form>
-
-<?if ($display['resize']):?>
-<script>
-$(function() {
-  $('pre.up').css('height',Math.max(window.innerHeight-400,370)).show();
-});
-</script>
-<?endif;?>
