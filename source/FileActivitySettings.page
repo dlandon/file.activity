@@ -20,17 +20,10 @@ if (!defined('DOCROOT')) {
 
 /* Parse the plugin config file. */
 $file_activity_cfg	= parse_plugin_cfg(FILE_ACTIVITY_PLUGIN, true);
+
+$file_activity_log	= "/var/log/file.activity.log";
+$zip				= str_replace(' ','_',strtolower($var['NAME']))."-file.activity-".date('Ymd-Hi').".zip";
 ?>
-
-<script>
-$(function() {
-	showStatus('pid','file.activity');
-
-	if ( typeof caPluginUpdateCheck === "function" ) {
-		caPluginUpdateCheck("file.activity.plg");
-	}
-});
-</script>
 
 <table class="tablesorter shift ups">
 <thead><tr><th>_(File Activity Settings)_</th></tr></thead>
@@ -105,7 +98,7 @@ _(Display Events)_ :
 > This is the number of file events shown on disks and shares from the File Activity log for each share or disk.
 :end
 
-<input type="submit" name="#default" value="_(Default)_" title="Load and apply default values.">
+<input type="submit" name="#default" value="_(Default)_" title="_(Load and apply default values)_"><input type="button" value="_(Download)_" title="_(Download File Activity Log)_" onclick="getlog()">
 : <span class="inline-block">
 	<?if (! is_file("/var/run/file.activity.pid")):?>
 	<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
@@ -123,3 +116,36 @@ _(Display Events)_ :
 <?else:?>
 	<p>Array is stopped!</p>
 <?endif;?>
+
+<script>
+$(function() {
+	showStatus('pid','file.activity');
+
+	if ( typeof caPluginUpdateCheck === "function" ) {
+		caPluginUpdateCheck("file.activity.plg");
+	}
+});
+
+function cleanUp() {
+	if (document.hasFocus()) {
+		$('input[value="Downloading..."]').val('Download').prop('disabled',false);
+		$.post('/webGui/include/Download.php',{cmd:'delete',file:'<?=$zip?>'});
+	} else {
+		setTimeout(cleanUp,4000);
+	}
+}  
+
+function getlog() {
+	$('input[value="Download"]').val('Downloading...').prop('disabled',true);
+	$.post('/webGui/include/Download.php',{cmd:'save',source:'<?=$file_activity_log?>',file:'<?=$zip?>'},function(zip) {
+		location = zip;
+		setTimeout(cleanUp,4000);
+	});
+}
+
+<?if ($display['resize']):?>
+$(function() {
+  $('pre.up').css('height',Math.max(window.innerHeight-400,450)).show();
+});
+<?endif;?>
+</script>
