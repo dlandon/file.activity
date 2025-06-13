@@ -40,10 +40,19 @@ file_activity_stop() {
 			kill $pid >/dev/null 2>&1
 		done	
 
-		# Remove pid file to show file activity is not running.
-		rm -f /var/run/${plugin}.pid
+		sleep 1
 
-		sleep 2
+
+		for pid in $(ps -eo pid,cmd | grep 'inotify.file.activity' | grep -v grep | awk '{print $1}')
+		do
+			kill $pid >/dev/null 2>&1
+		done	
+
+		sleep 1
+
+		# Remove pid file to show file activity is not running.
+		rm -f /var/run/${inotify}.pid
+		rm -f /var/run/${plugin}.pid
 	fi
 }
 
@@ -62,6 +71,8 @@ file_activity_update() {
 }
 
 plugin="file.activity"
+inotify="file.activity.inotify"
+
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
 PROG_NAME=${plugin}
