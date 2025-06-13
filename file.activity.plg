@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2025.06.10">
+<!ENTITY version    "2025.06.13">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"e39f56fc19de4556bec12fff25ff8777">
+<!ENTITY MD5		"e8f9f57965c66285480d7cb249d00c77">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,7 +22,11 @@
 <CHANGES>
 ##&name;
 ###&version;
+- FIx: Start/Stop button incorrect operation.  Settings are not updated properly.
+
+###2025.06.10
 - Fix: UI page size adjustment.
+- Fix: UI changes.
 - Add: 'Download' button to download the complete file activity log.
 
 ###2025.06.08a
