@@ -37,7 +37,7 @@ $zip				= str_replace(' ','_',strtolower($var['NAME']))."-file.activity-".date('
 > You need to start the File Activity in order to log the disk activity.
 > File Activity is intended to be running for short periods so you can check disk activity.
 > A server with a lot of file activity can fill the log space.
-> The 'appdata', 'docker', 'syslogs', and 'system' directories (case insensitive) are excluded.
+> The 'appdata', 'docker', 'domains', 'syslogs', and 'system' directories (case insensitive) are excluded.
 > **SSD devices are not monitored by default.**
 >
 > Note: File Activity monitoring is stopped if the array is stopped, and will restart when the array is started if it is enabled.
@@ -50,20 +50,24 @@ $zip				= str_replace(' ','_',strtolower($var['NAME']))."-file.activity-".date('
 <input type="hidden" name="#arg[1]" value="update">
 
 _(Enable File Activity Monitoring)_?
-: <select name="SERVICE" size="1">
+: <span class="inline-block">
+  <select name="SERVICE" size="1">
 	<?=mk_option($file_activity_cfg['SERVICE'], "disable", "_(No)_");?>
 	<?=mk_option($file_activity_cfg['SERVICE'], "enable", "_(Yes)_");?>
   </select>
+</span>
 
 :file_activity_enable_logging_plug:
 > Set to **Yes** to enable File Activity monitoring when the server is started.
 :end
 
 _(Enable for SSD Devices)_?
-: <select name="INCLUDE_SSD" size="1">
+: <span class="inline-block">
+  <select name="INCLUDE_SSD" size="1">
 	<?=mk_option($file_activity_cfg['INCLUDE_SSD'], "no", "_(No)_");?>
 	<?=mk_option($file_activity_cfg['INCLUDE_SSD'], "yes", "_(Yes)_");?>
   </select>
+</span>
 
 :file_activity_enable_ssd_plug:
 > Set to **Yes** to enable File Activity monitoring for any SSD Devices, otherwise only Spinning Devices are monitored.
@@ -72,27 +76,33 @@ _(Enable for SSD Devices)_?
 :end
 
 _(Enable for Unassigned Devices)_?
-: <select name="INCLUDE_UD" size="1">
+: <span class="inline-block">
+  <select name="INCLUDE_UD" size="1">
 	<?=mk_option($file_activity_cfg['INCLUDE_UD'], "yes", "_(Yes)_");?>
 	<?=mk_option($file_activity_cfg['INCLUDE_UD'], "no", "_(No)_");?>
   </select>
+</span>
 
 :file_activity_enable_ud_plug:
 > Set to **Yes** to enable File Activity monitoring for Unassigned Devices if the Unassigned Devices plugin is installed.
 :end
 
 _(Enable for Cache and Pool Disks)_?
-: <select name="INCLUDE_CACHE" size="1">
+: <span class="inline-block">
+  <select name="INCLUDE_CACHE" size="1">
 	<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "no", "_(No)_");?>
 	<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "yes", "_(Yes)_");?>
   </select>
+</span>
 
 :file_activity_enable_cache_plug:
 > Set to **Yes** to enable File Activity monitoring for the Cache and Pool Disks.
 :end
 
 _(Display Events)_ :
-: <input type="text" name="DISPLAY_EVENTS" class="narrow" maxlength="4" value="<?=htmlspecialchars($file_activity_cfg['DISPLAY_EVENTS']);?>" placeholder="25">
+: <span class="inline-block">
+  <input type="text" name="DISPLAY_EVENTS" class="narrow" maxlength="4" value="<?=htmlspecialchars($file_activity_cfg['DISPLAY_EVENTS']);?>" placeholder="25">
+</span>
 
 :file_activity_display_events_plug:
 > This is the number of file events shown on disks and shares from the File Activity log for each share or disk.
