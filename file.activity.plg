@@ -22,12 +22,11 @@
 <CHANGES>
 ##&name;
 ###&version;
-
+- Add: Show status indicator on table header.
 
 ###2025.08.04
 - Fix: Exclude 'domains' from file activity.
 - Fix: UI changes for Unraid 7.2.
-- Add: Show status indicator on table header.
 
 ###2025.06.13
 - FIx: Start/Stop button incorrect operation.  Settings are not updated properly.
