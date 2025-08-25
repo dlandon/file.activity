@@ -23,10 +23,18 @@ $file_activity_cfg	= parse_plugin_cfg(FILE_ACTIVITY_PLUGIN, true);
 
 $file_activity_log	= "/var/log/file.activity.log";
 $zip				= str_replace(' ','_',strtolower($var['NAME']))."-file.activity-".date('Ymd-Hi').".zip";
+
+$pidFile	= '/var/run/file.activity.pid';
+$pidStatus	= file_exists($pidFile) ? 'Running' : 'Stopped';
+$pidColor 	= $pidStatus == 'Running' ? 'green' : 'orange';
 ?>
 
 <table class="tablesorter shift ups">
-<thead><tr><th>_(File Activity Settings)_</th></tr></thead>
+	<thead>
+		<tr><th>_(File Activity Settings)_ 
+			<span style="float:right; text-transform:none; font-size:1.3em;">Status: <span style="color:<?=$pidColor;?>;"><?=$pidStatus;?></span>
+		</th></tr>
+	</thead>
 </table>
 
 <?if ($var['mdState']=="STARTED"):?>
@@ -72,7 +80,7 @@ _(Enable for SSD Devices)_?
 :file_activity_enable_ssd_plug:
 > Set to **Yes** to enable File Activity monitoring for any SSD Devices, otherwise only Spinning Devices are monitored.
 >
-> Monitoring SSD devices can overwhelm the server from hyper activity on SSDs.
+> Monitoring SSD devices can overwhelm file activity logging from hyper activity on SSDs.
 :end
 
 _(Enable for Unassigned Devices)_?
@@ -124,14 +132,6 @@ _(Display Events)_ :
 <?endif;?>
 
 <script>
-$(function() {
-	showStatus('pid','file.activity');
-
-	if ( typeof caPluginUpdateCheck === "function" ) {
-		caPluginUpdateCheck("file.activity.plg");
-	}
-});
-
 document.addEventListener("DOMContentLoaded", function() {
 	const form = document.forms['file_activity'];
 	const applyBtn = form.querySelector('input[name="#apply"]');
@@ -184,9 +184,15 @@ function getlog() {
 	});
 }
 
-<?if ($display['resize']):?>
 $(function() {
-  $('pre.up').css('height',Math.max(window.innerHeight-400,450)).show();
+	if ( typeof caPluginUpdateCheck === "function" ) {
+		caPluginUpdateCheck("file.activity.plg");
+	}
+
+	<?if ($display['resize']):?>
+		$('pre.up').css('height',Math.max(window.innerHeight-400,450)).show();
+	<?endif;?>
 });
-<?endif;?>
+
+
 </script>

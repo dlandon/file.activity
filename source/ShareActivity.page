@@ -13,7 +13,11 @@ Cond="$var['mdState'] == 'STARTED'"
 ?>
 
 <table class="tablesorter shift ups">
-<thead><tr><th>_(Share File Activity)_</th></tr></thead>
+	<thead>
+		<tr><th>_(Share File Activity)_
+			<span style="float:right; text-transform:none; font-size:1.3em;">Status: <span style="color:<?=$pidColor;?>;"><?=$pidStatus;?></span>
+		</th></tr>
+	</thead>
 </table>
 
 <br>
