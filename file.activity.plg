@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2025.08.04">
+<!ENTITY version    "2025.08.25">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"6aacd762d4b721cdf1f77b00181f4b07">
+<!ENTITY MD5		"b810980dedee4e26748ffd6a971feba3">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,8 +22,12 @@
 <CHANGES>
 ##&name;
 ###&version;
+
+
+###2025.08.04
 - Fix: Exclude 'domains' from file activity.
 - Fix: UI changes for Unraid 7.2.
+- Add: Show status indicator on table header.
 
 ###2025.06.13
 - FIx: Start/Stop button incorrect operation.  Settings are not updated properly.
