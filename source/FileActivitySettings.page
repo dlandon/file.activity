@@ -29,6 +29,8 @@ $pidStatus	= file_exists($pidFile) ? 'Running' : 'Stopped';
 $pidColor 	= $pidStatus == 'Running' ? 'green' : 'orange';
 ?>
 
+<link rel="stylesheet" href="<?autov("/plugins/".FILE_ACTIVITY_PLUGIN."/assets/file-activity.css")?>">
+
 <table class="tablesorter shift ups">
 	<thead>
 		<tr><th>_(File Activity Settings)_ 
@@ -59,7 +61,7 @@ $pidColor 	= $pidStatus == 'Running' ? 'green' : 'orange';
 
 _(Enable File Activity Monitoring)_?
 : <span class="inline-block">
-  <select name="SERVICE" size="1">
+  <select name="SERVICE" size="1" class="narrow">
 	<?=mk_option($file_activity_cfg['SERVICE'], "disable", "_(No)_");?>
 	<?=mk_option($file_activity_cfg['SERVICE'], "enable", "_(Yes)_");?>
   </select>
@@ -71,7 +73,7 @@ _(Enable File Activity Monitoring)_?
 
 _(Enable for SSD Devices)_?
 : <span class="inline-block">
-  <select name="INCLUDE_SSD" size="1">
+  <select name="INCLUDE_SSD" size="1" class="narrow">
 	<?=mk_option($file_activity_cfg['INCLUDE_SSD'], "no", "_(No)_");?>
 	<?=mk_option($file_activity_cfg['INCLUDE_SSD'], "yes", "_(Yes)_");?>
   </select>
@@ -85,7 +87,7 @@ _(Enable for SSD Devices)_?
 
 _(Enable for Unassigned Devices)_?
 : <span class="inline-block">
-  <select name="INCLUDE_UD" size="1">
+  <select name="INCLUDE_UD" size="1" class="narrow">
 	<?=mk_option($file_activity_cfg['INCLUDE_UD'], "yes", "_(Yes)_");?>
 	<?=mk_option($file_activity_cfg['INCLUDE_UD'], "no", "_(No)_");?>
   </select>
@@ -97,7 +99,7 @@ _(Enable for Unassigned Devices)_?
 
 _(Enable for Cache and Pool Disks)_?
 : <span class="inline-block">
-  <select name="INCLUDE_CACHE" size="1">
+  <select name="INCLUDE_CACHE" size="1" class="narrow">
 	<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "no", "_(No)_");?>
 	<?=mk_option($file_activity_cfg['INCLUDE_CACHE'], "yes", "_(Yes)_");?>
   </select>
@@ -109,7 +111,7 @@ _(Enable for Cache and Pool Disks)_?
 
 _(Display Events)_ :
 : <span class="inline-block">
-  <input type="text" name="DISPLAY_EVENTS" class="narrow" maxlength="4" value="<?=htmlspecialchars($file_activity_cfg['DISPLAY_EVENTS']);?>" placeholder="25">
+  <input type="text" name="DISPLAY_EVENTS" class="fa-numeric-input" maxlength="4" value="<?=htmlspecialchars($file_activity_cfg['DISPLAY_EVENTS']);?>" placeholder="25">
 </span>
 
 :file_activity_display_events_plug:

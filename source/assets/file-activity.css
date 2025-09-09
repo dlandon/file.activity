@@ -1,0 +1,6 @@
+/* Responsive UI adjustments. */
+.fa-numeric-input {
+	width: 80px !important;
+	max-width: 100% !important;
+	box-sizing: border-box;
+}
