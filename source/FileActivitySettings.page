@@ -111,7 +111,7 @@ _(Enable for Cache and Pool Disks)_?
 
 _(Display Events)_ :
 : <span class="inline-block">
-  <input type="text" name="DISPLAY_EVENTS" class="fa-numeric-input" maxlength="4" value="<?=htmlspecialchars($file_activity_cfg['DISPLAY_EVENTS']);?>" placeholder="25">
+  <input type="number" name="DISPLAY_EVENTS" class="fa-numeric-input" maxlength="4" value="<?=htmlspecialchars($file_activity_cfg['DISPLAY_EVENTS']);?>" placeholder="25" min="1" max="9999">
 </span>
 
 :file_activity_display_events_plug:
