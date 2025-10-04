@@ -118,12 +118,12 @@ _(Display Events)_ :
 > This is the number of file events shown on disks and shares from the File Activity log for each share or disk.
 :end
 
-<input type="submit" name="#default" value="_(Default)_" title="_(Load and apply default values)_"><input type="button" value="_(Download)_" title="_(Download File Activity Log)_" onclick="getlog()">
+<input type="submit" name="#default" value="_(Default)_"><input type="button" value="_(Download)_" onclick="getlog()">
 : <span class="inline-block">
 	<? if (!is_file("/var/run/file.activity.pid")): ?>
-	<input type="submit" name="startstop" value="_(Start)_" title="_(Start File Activity Monitoring)_">
+	<input type="submit" name="startstop" value="_(Start)_">
 	<? else: ?>
-	<input type="submit" name="startstop" value="_(Stop)_" title="_(Stop File Activity Monitoring)_">
+	<input type="submit" name="startstop" value="_(Stop)_">
 	<? endif; ?>
 	<input type="submit" name="#apply" value="_(Apply)_"><input type="button" value="_(Done)_" onclick="done()">
 </span>

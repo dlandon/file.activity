@@ -46,9 +46,9 @@ echo "</pre>";
 ?>
 
 <form name="clear log" method="POST" action="/update.php" target="progressFrame">
-	<input type="button" value="_(Refresh)_" title="_(Refresh Page)_" onclick="refresh()">
+	<input type="button" value="_(Refresh)_" onclick="refresh()">
 	<input type="hidden" name="#command" value="/plugins/file.activity/scripts/rc.file.activity">
 	<input type="hidden" name="#arg[1]" value="clear">
-	<input type="submit" value="_(Clear)_" title="_(Clear the File Activity log)_">
+	<input type="submit" value="_(Clear)_">
 	<input type="button" value="_(Done)_" onclick="done()">
 </form>
