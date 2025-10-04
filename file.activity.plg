@@ -2,12 +2,12 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name       "file.activity">
 <!ENTITY author     "dlandon">
-<!ENTITY version    "2025.09.25">
+<!ENTITY version    "2025.10.04">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://forums.unraid.net/topic/54808-file-activity-plugin-how-can-i-figure-out-what-keeps-spinning-up-my-disks/">
-<!ENTITY MD5		"28e518826fd1e6def396e4bc9245b8c6">
+<!ENTITY MD5		"e744f1ab5275fbc76af2404351ef4d7d">
 ]>
 
 <PLUGIN	name="&name;"
@@ -22,6 +22,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Remove unneeded tooltips.
+
+###2025.09.25
 - Add: Numeric inputs limited to numbers and min and max values added.
 
 ###2025.09.09
@@ -62,7 +65,7 @@
 - Fix: Show share name and not share mount point on 'Share Activity'.
 - Add: Option to monitor file activity on SSD devices.  The File Activity plugin was really intended to monitor activity on spinning devices.  Monitoring SSD devices can overwhelm file activity with hyper activity.
 
-###20925.02.24
+###2025.02.24
 - Fix: Language translation updates.
 - Fix: Optimize inotify implementation.
 - Fix: Start file activity after the array has started and don't delay the start of inotify.
