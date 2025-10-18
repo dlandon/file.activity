@@ -12,15 +12,10 @@ Cond="$var['mdState'] == 'STARTED'"
  */
 ?>
 
-<table class="tablesorter shift ups">
-	<thead>
-		<tr><th>_(Disk and Pool File Activity)_
-			<span style="float:right; text-transform:none; font-size:1.3em;">Status: <span style="color:<?=$pidColor;?>;"><?=$pidStatus;?></span>
-		</th></tr>
-	</thead>
-</table>
-
-<br>
+<div class='<?=$title_class;?> title shift'>
+	<span class='title-left'>_(Disk and Pool Activity)_</span>
+	<span class='status-text'>Status: <span class='status-value' style='color:<?=$pidColor;?>;'><?=$pidStatus;?></span></span>
+</div>
 <?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
 

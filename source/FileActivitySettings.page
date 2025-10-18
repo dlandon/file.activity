@@ -24,20 +24,34 @@ $file_activity_cfg	= parse_plugin_cfg(FILE_ACTIVITY_PLUGIN, true);
 $file_activity_log	= "/var/log/file.activity.log";
 $zip				= str_replace(' ','_',strtolower($var['NAME']))."-file.activity-".date('Ymd-Hi').".zip";
 
+/* Detect Unraid version and assign a CSS class */
+$unraid_version = '';
+if (file_exists('/etc/unraid-version')) {
+	$data = parse_ini_file('/etc/unraid-version');
+	if (!empty($data['version'])) {
+		$unraid_version = $data['version'];
+	}
+}
+
+/* Default to legacy if not detected */
+$title_class = 'legacy';
+
+/* Compare version — 7.2 and newer = latest */
+if (version_compare($unraid_version, '7.2', '>=')) {
+	$title_class = 'latest';
+}
+
 $pidFile	= '/var/run/file.activity.pid';
 $pidStatus	= file_exists($pidFile) ? 'Running' : 'Stopped';
 $pidColor 	= $pidStatus == 'Running' ? 'green' : 'orange';
 ?>
 
-<link rel="stylesheet" href="<?autov("/plugins/".FILE_ACTIVITY_PLUGIN."/assets/file-activity.css")?>">
+<div class='<?=$title_class;?> title shift'>
+	<span class='title-left'>_(File Activity Settings)_</span>
+	<span class='status-text'>Status: <span class='status-value' style='color:<?=$pidColor;?>;'><?=$pidStatus;?></span></span>
+</div>
 
-<table class="tablesorter shift ups">
-	<thead>
-		<tr><th>_(File Activity Settings)_ 
-			<span style="float:right; text-transform:none; font-size:1.3em;">Status: <span style="color:<?=$pidColor;?>;"><?=$pidStatus;?></span>
-		</th></tr>
-	</thead>
-</table>
+<link rel="stylesheet" href="<?autov("/plugins/".FILE_ACTIVITY_PLUGIN."/assets/file-activity.css")?>">
 
 <?if ($var['mdState']=="STARTED"):?>
 :file_activity_loggging_plug:
