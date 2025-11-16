@@ -1,17 +1,22 @@
 #!/bin/bash
 # Usage:
 #
-# Copyright 2020-2025, Dan Landon
+# Copyright 2020-2025 Dan Landon
 #
 # Permission is granted to use this software for personal, educational, or internal use only.
+# Commercial use, redistribution, or modification of this software or any derived works
+# is strictly prohibited without prior written permission.
 #
-# Commercial use, redistribution, or modification of this software or any derived works is strictly prohibited without prior written permission.
+# THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
 #
 plugin="file.activity"
 inotify="file.activity.inotify"
 disks_file="/tmp/${plugin}/${plugin}.disks"
+
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
+
+FIFO_PATH="/tmp/${plugin}/inotify_queue"
 PROG_NAME=${plugin}
 
 # If file activity inotify is already running, don't run it again
@@ -57,9 +62,6 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "/var/run/${inotify}.pid" ]; then
 	fi
 
 	open_isdir=",ISDIR"
-
-	# Define FIFO path
-	FIFO_PATH="/tmp/${plugin}/inotify_queue"
 
 	# Cleanup function
 	cleanup() {
