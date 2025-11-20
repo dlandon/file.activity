@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage:
+# File Activity inotify manager
 #
 # Copyright 2020-2025 Dan Landon
 #
@@ -13,65 +13,89 @@ plugin="file.activity"
 inotify="file.activity.inotify"
 disks_file="/tmp/${plugin}/${plugin}.disks"
 
+PID_FILE="/var/run/${inotify}.pid"
+MAX_LINES=2000
+LOG_FILE="/var/log/${plugin}.log"
+event_count=0
+TRIM_INTERVAL=100
+
+PROG_NAME=${plugin}
+
+# Define FIFO path
+FIFO_PATH="/tmp/${plugin}/inotify_queue"
+
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
 
-FIFO_PATH="/tmp/${plugin}/inotify_queue"
-PROG_NAME=${plugin}
+adjust_watch_limit() {
+	local dir_count=0
+	while IFS= read -r mp || [ -n "$mp" ]; do
+		[ -d "$mp" ] || continue
+		local count
+		count=$(find "$mp" -type d -printf '.' 2>/dev/null | wc -c)
+		dir_count=$((dir_count + count))
+	done < "$combined_recycle_bins"
+
+	local required=$((dir_count + dir_count/10))
+	local current=0
+	for f in /proc/*/fd/*; do
+		[ -e "$f" ] || continue
+		[ "$(readlink "$f" 2>/dev/null)" = "anon_inode:inotify" ] && current=$((current + 1))
+	done
+
+	local new=$((current + required))
+	local old
+	old=$(cat /proc/sys/fs/inotify/max_user_watches)
+
+	if [ "$new" -gt "$old" ]; then
+		logger -t"$PROG_NAME" "Updating max_user_watches from $old to $new"
+		sysctl -qw fs.inotify.max_user_watches="$new"
+	fi
+}
 
 # If file activity inotify is already running, don't run it again
-if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "/var/run/${inotify}.pid" ]; then
+if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "$PID_FILE" ]; then
 	# Create pid file to indicate inotify is running.
-	echo $$ > /var/run/${inotify}.pid
+	echo $$ > "$PID_FILE"
 
-	logger "File Activity inotify starting" -t"$PROG_NAME"
+	logger "File Activity inotify starting..." -t"$PROG_NAME"
 
 	# Configure the disks_file based on the file activity settings.
 	/usr/local/emhttp/plugins/${plugin}/scripts/configure_file_activity ${INCLUDE_SSD} ${INCLUDE_UD} ${INCLUDE_CACHE}
 
-	# Initialize directory count
-	dir_count=0
+	# Adjust the inotify watch limit if necessary
+	adjust_watch_limit
 
-	# Loop through each mount point in the file
-	while IFS= read -r mount_point || [ -n "$mount_point" ]; do
-		if [ -d "$mount_point" ]; then
-			# Use find only when the directory exists
-			count=$(find "$mount_point" -type d 2>/dev/null | wc -l)
-			dir_count=$((dir_count + count))
+	# Convert comma-separated list into a regex alternation list.
+	trimmed_regex=""
+	IFS=','
+
+	for item in $EXCLUDE_SHARES; do
+		# Trim leading/trailing whitespace but keep internal spaces
+		item="$(echo "$item" | sed 's/^[ \t]*//;s/[ \t]*$//')"
+
+		if [ -n "$item" ]; then
+			if [ -z "$trimmed_regex" ]; then
+				trimmed_regex="$item"
+			else
+				trimmed_regex="${trimmed_regex}|${item}"
+			fi
 		fi
-	done < "$disks_file"
+	done
 
-	# Calculate the required watches with a 10% buffer
-	required_watches=$((dir_count + (dir_count / 10)))
-
-	# Find the current inotify watches being used
-	current_watches=$(find /proc/*/fd -lname anon_inode:inotify 2>/dev/null | cut -d/ -f5 | grep -v 'no such file or directory' | awk '{s+=$1} END {print s}')
-
-	# Calculate the new limit
-	new_limit=$((current_watches + required_watches))
-
-	# Check the current maximum limit
-	current_limit=$(/usr/bin/cat /proc/sys/fs/inotify/max_user_watches)
-
-	# Update the limit if necessary
-	if [ "$new_limit" -gt "$current_limit" ]; then
-		logger "Updating inotify max_user_watches from '$current_limit' to '$new_limit'" -t"$PROG_NAME"
-
-		# Set the inotify max_user_watches.
-		sysctl -qw fs.inotify.max_user_watches="$new_limit" > /dev/null
-	fi
+	EXCLUDE_REGEX="$trimmed_regex"
 
 	open_isdir=",ISDIR"
 
 	# Cleanup function
 	cleanup() {
-		logger "File Activity inotify exiting" -t"$PROG_NAME"
+		logger "File Activity inotify exiting..." -t"$PROG_NAME"
 
 		kill "$inotify_pid" 2>/dev/null
 		wait "$inotify_pid" 2>/dev/null
 
 		# Remove PID file
-		rm -f /var/run/${inotify}.pid
+		rm -f "$PID_FILE"
 
 		[ -p "$FIFO_PATH" ] && rm -f "$FIFO_PATH"
 		exit 0
@@ -84,8 +108,8 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "/var/run/${inotify}.pid" ]; then
 	[ -p "$FIFO_PATH" ] || mkfifo "$FIFO_PATH"
 
 	# Start inotifywait and send output to FIFO
-	inotifywait --monitor -rs --quiet --event open,attrib,move,create,delete,modify \
-		--excludei 'appdata|docker|domains|syslogs|system' \
+	inotifywait --monitor -rs --quiet --event attrib,move,create,delete,modify,close_write \
+		--excludei "$EXCLUDE_REGEX" \
 		--timefmt '%b %d %H:%M:%S' \
 		--format '%T %e => %w%f' \
 		--fromfile "${disks_file}" > "$FIFO_PATH" &
@@ -100,8 +124,38 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "/var/run/${inotify}.pid" ]; then
 			# Add line to log
 			echo "$line" >> /var/log/${plugin}.log
 
-			# Trim log file if it is over 20000 lines
-			sed -i -e :a -e '$q;N;20001,$D;ba' /var/log/${plugin}.log &
+			# Count event
+			event_count=$((event_count + 1))
+
+			# Only check every TRIM_INTERVAL events
+			if [ "$event_count" -ge "$TRIM_INTERVAL" ]; then
+				event_count=0
+
+				# Check line count first — avoid work if not needed
+				line_count=$(wc -l < "$LOG_FILE")
+
+				if [ "$line_count" -gt "$MAX_LINES" ]; then
+					tail -n "$MAX_LINES" "$LOG_FILE" > "${LOG_FILE}.tmp" && mv "${LOG_FILE}.tmp" "$LOG_FILE" &
+				fi
+			fi
 		fi
 	done
+
+	wait "$inotify_pid"
+	status=$?
+
+	# If exit code is non-zero AND not 143 (SIGTERM), it's abnormal
+	if [ "$status" -ne 0 ] && [ "$status" -ne 143 ]; then
+		logger "Error: File Activity logging has terminated unexpectedly (code $status)" -t"$PROG_NAME"
+
+		# Remove PID file
+  		rm -f "$PID_FILE"
+
+		# Remove main task PID to stop file monitoring
+		rm -f "/var/run/${plugin}.pid"
+
+		# Remove FIFO if it exists
+  		[ -p "$FIFO_PATH" ] && rm -f "$FIFO_PATH"
+		exit 1
+	fi
 fi

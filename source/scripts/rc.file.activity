@@ -11,19 +11,20 @@
 # Usage:
 # start|stop|clear|update.
 
+plugin="file.activity"
+LOG_FILE="/var/log/${plugin}.log"
+
 file_activity_start() {
 	# Is file activity running?
 	if [ ! -e "/var/run/${plugin}.pid" ]; then
 		echo "Starting File Activity..."
-		logger "Starting File Activity" -t"$PROG_NAME"
+		logger "Starting File Activity..." -t"$PROG_NAME"
 
 		# Start inotify script to monitor disk events
-		/usr/local/emhttp/plugins/file.activity/scripts/inotify.file.activity >/dev/null 2>&1 & disown
+		/usr/local/emhttp/plugins/file.activity/scripts/inotify.file.activity >/dev/null 2>&1 &
 
 		# Create pid to show file activity is running.
 		echo $$ > /var/run/${plugin}.pid
-
-		sleep 2
 	else
 		echo "File Activity already running"
 		logger "File Activity already running" -t"$PROG_NAME"
@@ -34,33 +35,24 @@ file_activity_stop() {
 	# Is the files active inotify script running?
 	if [ -e "/var/run/${plugin}.pid" ]; then
 		echo "Stopping File Activity..."
-		logger "Stopping File Activity" -t"$PROG_NAME"
+		logger "Stopping File Activity..." -t"$PROG_NAME"
 
-		# Kill all file activity processes.
-		for pid in $(ps -eo pid,cmd | grep 'inotifywait' | grep 'file.activity' | grep -v grep | awk '{print $1}')
-		do
-			kill $pid >/dev/null 2>&1
-		done	
-
-		sleep 1
-
-
-		for pid in $(ps -eo pid,cmd | grep 'inotify.file.activity' | grep -v grep | awk '{print $1}')
-		do
-			kill $pid >/dev/null 2>&1
-		done	
-
-		sleep 1
+		# Kill lingering inotifywait processes
+		pgrep -f "/tmp/file.activity/file.activity.disks" | while read -r pid; do
+			kill "$pid" >/dev/null 2>&1
+		done
 
 		# Remove pid file to show file activity is not running.
-		rm -f /var/run/${inotify}.pid
 		rm -f /var/run/${plugin}.pid
+	else
+		echo "File Activity is not running"
+		logger "Not running" -t"$PROG_NAME"
 	fi
 }
 
 file_activity_clear() {
 	# Clear the file activity log.
-	echo "" > /var/log/file.activity.log
+	echo -n "" > "$LOG_FILE"
 }
 
 file_activity_update() {
