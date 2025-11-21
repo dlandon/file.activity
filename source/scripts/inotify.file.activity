@@ -91,11 +91,17 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "$PID_FILE" ]; then
 	cleanup() {
 		logger "File Activity inotify exiting..." -t"$PROG_NAME"
 
-		kill "$inotify_pid" 2>/dev/null
-		wait "$inotify_pid" 2>/dev/null
+		/* Only act if $inotify_pid is a valid running PID */
+		if [[ "$inotify_pid" =~ ^[0-9]+$ ]] && kill -0 "$inotify_pid" 2>/dev/null; then
+			kill "$inotify_pid" 2>/dev/null
+			wait "$inotify_pid" 2>/dev/null
+		fi
 
 		# Remove PID file
 		rm -f "$PID_FILE"
+
+		# Remove main task PID to stop file monitoring
+		rm -f "/var/run/${plugin}.pid"
 
 		[ -p "$FIFO_PATH" ] && rm -f "$FIFO_PATH"
 		exit 0
@@ -108,7 +114,7 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "$PID_FILE" ]; then
 	[ -p "$FIFO_PATH" ] || mkfifo "$FIFO_PATH"
 
 	# Start inotifywait and send output to FIFO
-	inotifywait --monitor -rs --quiet --event attrib,move,create,delete,modify,close_write \
+	inotifywait --monitor -rs --quiet --event "$OPEN_FILE_EVENTS"attrib,move,create,delete,modify,close_write \
 		--excludei "$EXCLUDE_REGEX" \
 		--timefmt '%b %d %H:%M:%S' \
 		--format '%T %e => %w%f' \
@@ -148,14 +154,8 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "$PID_FILE" ]; then
 	if [ "$status" -ne 0 ] && [ "$status" -ne 143 ]; then
 		logger "Error: File Activity logging has terminated unexpectedly (code $status)" -t"$PROG_NAME"
 
-		# Remove PID file
-  		rm -f "$PID_FILE"
+		cleanup
 
-		# Remove main task PID to stop file monitoring
-		rm -f "/var/run/${plugin}.pid"
-
-		# Remove FIFO if it exists
-  		[ -p "$FIFO_PATH" ] && rm -f "$FIFO_PATH"
 		exit 1
 	fi
 fi
