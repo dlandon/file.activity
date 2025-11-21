@@ -14,7 +14,6 @@ inotify="file.activity.inotify"
 disks_file="/tmp/${plugin}/${plugin}.disks"
 
 PID_FILE="/var/run/${inotify}.pid"
-MAX_LINES=2000
 LOG_FILE="/var/log/${plugin}.log"
 event_count=0
 TRIM_INTERVAL=100
@@ -26,6 +25,10 @@ FIFO_PATH="/tmp/${plugin}/inotify_queue"
 
 CONFIG="/boot/config/plugins/${plugin}/${plugin}.cfg"
 source $CONFIG
+
+if [ -z $MAX_LINES ]; then
+	MAX_LINES=2000
+fi
 
 adjust_watch_limit() {
 	local dir_count=0

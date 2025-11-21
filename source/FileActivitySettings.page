@@ -148,6 +148,15 @@ _(Display Events)_ :
 > This is the number of file events shown on disks and shares from the File Activity log for each share or disk.
 :end
 
+_(Max Log Lines)_ :
+: <span class="inline-block">
+  <input type="number" name="MAX_LINES" class="fa-numeric-input" maxlength="5" value="<?=htmlspecialchars($file_activity_cfg['MAX_LINES']);?>" placeholder="2000" min="1" max="99999">
+</span>
+
+:file_activity_max_lines_plug:
+> This is the maximum number of log file lines allowed.  If you anticipate a lot of file activity, you might need to increase this max.
+:end
+
 _(Exclude Shares)_ :
 : <span class="inline-block">
   <input type="text" name="EXCLUDE_SHARES" class="wide" maxlength="100" value="<?=htmlspecialchars($file_activity_cfg['EXCLUDE_SHARES']);?>">
