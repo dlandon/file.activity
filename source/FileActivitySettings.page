@@ -104,8 +104,8 @@ _(Enable for SSD Devices)_?
 _(Enable for Unassigned Devices)_?
 : <span class="inline-block">
   <select name="INCLUDE_UD" size="1" class="narrow">
-	<?=mk_option($file_activity_cfg['INCLUDE_UD'], "yes", "_(Yes)_");?>
 	<?=mk_option($file_activity_cfg['INCLUDE_UD'], "no", "_(No)_");?>
+	<?=mk_option($file_activity_cfg['INCLUDE_UD'], "yes", "_(Yes)_");?>
   </select>
 </span>
 
