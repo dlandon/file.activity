@@ -58,6 +58,8 @@ file_activity_clear() {
 file_activity_update() {
 	file_activity_stop
 
+	sleep 2
+
 	# Start file activity if service is enabled.
 	if [ "$SERVICE" = "enable" ]; then
 		file_activity_start
