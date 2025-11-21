@@ -59,11 +59,11 @@ $pidColor 	= $pidStatus == 'Running' ? 'green' : 'orange';
 :file_activity_loggging_plug:
 > File Activity Monitoring:
 >
-> File open, read, write, and modify activity is monitored and logged on the array using inotify and is displayed by disk or share, UD disks, and cache.
+> File read, write, and modify (optionally open) activity is monitored and logged on the array and pool disks using inotify and is displayed by disk or share, UD disks, and cache.
 > You need to start the File Activity in order to log the disk activity.
 > File Activity is intended to be running for short periods so you can check disk activity.
 > A server with a lot of file activity can fill the log space.
-> The 'appdata', 'docker', 'domains', 'syslogs', and 'system' directories (case insensitive) are excluded.
+> The 'appdata', 'docker', 'domains', 'syslogs', and 'system' directories (case insensitive) are excluded by default but an be changed.
 > **SSD devices are not monitored by default.**
 >
 > Note: File Activity monitoring is stopped if the array is stopped, and will restart when the array is started if it is enabled.
@@ -123,6 +123,20 @@ _(Enable for Cache and Pool Disks)_?
 
 :file_activity_enable_cache_plug:
 > Set to **Yes** to enable File Activity monitoring for the Cache and Pool Disks.
+:end
+
+_(Log Open File Events)_?
+: <span class="inline-block">
+  <select name="OPEN_FILE_EVENTS" size="1" class="narrow">
+	<?=mk_option($file_activity_cfg['OPEN_FILE_EVENTS'], "", "_(No)_");?>
+	<?=mk_option($file_activity_cfg['OPEN_FILE_EVENTS'], "open,", "_(Yes)_");?>
+  </select>
+</span>
+
+:file_activity_open_file_events_plug:
+> Set to **Yes** to monitor open file events.  Be careful with this setting, it can add a lot of log entries and make the log hard to read.
+>
+> The log size is trimmed when log entries are added to the log to keep it from getting too large.
 :end
 
 _(Display Events)_ :
