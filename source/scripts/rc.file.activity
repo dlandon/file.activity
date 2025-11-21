@@ -12,11 +12,12 @@
 # start|stop|clear|update.
 
 plugin="file.activity"
+PID_FILE="/var/run/${plugin}.pid"
 LOG_FILE="/var/log/${plugin}.log"
 
 file_activity_start() {
 	# Is file activity running?
-	if [ ! -e "/var/run/${plugin}.pid" ]; then
+	if [ ! -e "$PID_FILE" ]; then
 		echo "Starting File Activity..."
 		logger "Starting File Activity..." -t"$PROG_NAME"
 
@@ -24,7 +25,7 @@ file_activity_start() {
 		/usr/local/emhttp/plugins/file.activity/scripts/inotify.file.activity >/dev/null 2>&1 &
 
 		# Create pid to show file activity is running.
-		echo $$ > /var/run/${plugin}.pid
+		echo $$ > "$PID_FILE"
 	else
 		echo "File Activity already running"
 		logger "File Activity already running" -t"$PROG_NAME"
@@ -33,7 +34,7 @@ file_activity_start() {
 
 file_activity_stop() {
 	# Is the files active inotify script running?
-	if [ -e "/var/run/${plugin}.pid" ]; then
+	if [ -e "$PID_FILE" ]; then
 		echo "Stopping File Activity..."
 		logger "Stopping File Activity..." -t"$PROG_NAME"
 
@@ -43,7 +44,7 @@ file_activity_stop() {
 		done
 
 		# Remove pid file to show file activity is not running.
-		rm -f /var/run/${plugin}.pid
+		rm -f "$PID_FILE"
 	else
 		echo "File Activity is not running"
 		logger "Not running" -t"$PROG_NAME"
@@ -56,9 +57,13 @@ file_activity_clear() {
 }
 
 file_activity_update() {
-	file_activity_stop
+	# Is file activity running?
+	if [ -e "$PID_FILE" ]; then
+		file_activity_stop
 
-	sleep 2
+		# Wait to be sure inotify stops
+		sleep 2
+	fi
 
 	# Start file activity if service is enabled.
 	if [ "$SERVICE" = "enable" ]; then
