@@ -32,23 +32,29 @@ fi
 
 adjust_watch_limit() {
 	local dir_count=0
+	local count
+	local required
+	local current
+	local new
+	local old
+
+	# Count dirs across all recycle bin mount paths
 	while IFS= read -r mp || [ -n "$mp" ]; do
 		[ -d "$mp" ] || continue
-		local count
+
 		count=$(find "$mp" -type d -printf '.' 2>/dev/null | wc -c)
 		dir_count=$((dir_count + count))
 	done < "$combined_recycle_bins"
 
-	local required=$((dir_count + dir_count/10))
-	local current=0
-	for f in /proc/*/fd/*; do
-		[ -e "$f" ] || continue
-		[ "$(readlink "$f" 2>/dev/null)" = "anon_inode:inotify" ] && current=$((current + 1))
-	done
+	# Add 10% buffer
+	required=$((dir_count + dir_count / 10))
 
-	local new=$((current + required))
-	local old
-	old=$(cat /proc/sys/fs/inotify/max_user_watches)
+	# Count current inotify watches
+	current=$(find /proc/*/fd -lname anon_inode:inotify 2>/dev/null | wc -l)
+
+	new=$((current + required))
+	old=$(cat /proc/sys/fs/inotify/max_user_watches 2>/dev/null)
+	old=${old:-0}
 
 	if [ "$new" -gt "$old" ]; then
 		logger -t"$PROG_NAME" "Updating max_user_watches from $old to $new"
@@ -94,7 +100,7 @@ if [ -e "/var/run/${plugin}.pid" ] && [ ! -e "$PID_FILE" ]; then
 	cleanup() {
 		logger "File Activity inotify exiting..." -t"$PROG_NAME"
 
-		/* Only act if $inotify_pid is a valid running PID */
+		# Only act if $inotify_pid is a valid running PID
 		if [[ "$inotify_pid" =~ ^[0-9]+$ ]] && kill -0 "$inotify_pid" 2>/dev/null; then
 			kill "$inotify_pid" 2>/dev/null
 			wait "$inotify_pid" 2>/dev/null
