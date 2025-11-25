@@ -243,6 +243,4 @@ $(function() {
 		$('pre.up').css('height',Math.max(window.innerHeight-400,450)).show();
 	<?endif;?>
 });
-
-
 </script>
