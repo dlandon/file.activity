@@ -59,6 +59,7 @@ foreach ($pools as $pool) {
 		$filesactive .= "\n";
 	}
 }
+
 echo $filesactive;
 echo "</pre>";
 ?>
@@ -70,3 +71,19 @@ echo "</pre>";
 	<input type="submit" value="_(Clear)_">
 	<input type="button" value="_(Done)_" onclick="done()">
 </form>
+
+<script>
+$(function() {
+	const pre = document.querySelector('pre.up');
+	if (pre) {
+		/* Resize function */
+		function resize() {
+			$('pre.up').height(Math.max(window.innerHeight - 380, 370)).show();
+		}
+
+		/* Initial resize and bind event */
+		resize();
+		$(window).on('resize', resize);
+	}
+});
+</script>
