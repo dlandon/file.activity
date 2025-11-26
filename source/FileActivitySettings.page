@@ -15,11 +15,6 @@ Tag="gear"
 /* Define our plugin name. */
 define('FILE_ACTIVITY_PLUGIN', 'file.activity');
 
-/* Define the docroot path. */
-if (!defined('DOCROOT')) {
-	define('DOCROOT', $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp');
-}
-
 /* Parse the plugin config file. */
 $file_activity_cfg	= parse_plugin_cfg(FILE_ACTIVITY_PLUGIN, true);
 
