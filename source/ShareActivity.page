@@ -13,6 +13,11 @@ Cond="$var['mdState'] == 'STARTED'"
  * THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
  */
 
+/* Define our plugin name. */
+if (!defined('FILE_ACTIVITY_PLUGIN')) {
+	define('FILE_ACTIVITY_PLUGIN', 'file.activity');
+}
+
 $pidFile	= '/var/run/file.activity.pid';
 $pidStatus	= file_exists($pidFile) ? 'Running' : 'Stopped';
 $pidColor 	= $pidStatus == 'Running' ? 'green' : 'orange';
@@ -25,7 +30,10 @@ $pidColor 	= $pidStatus == 'Running' ? 'green' : 'orange';
 <?
 echo $display['resize'] ? "<pre class='up' style='display:none'>" : "<pre class='up'>";
 
-$display_events		= ((isset($file_activity_cfg['DISPLAY_EVENTS'])) && ($file_activity_cfg['DISPLAY_EVENTS'])) ? $file_activity_cfg['DISPLAY_EVENTS'] : "25";
+/* Parse the plugin config file. */
+$file_activity_cfg	= parse_plugin_cfg(FILE_ACTIVITY_PLUGIN, true);
+
+$display_events		= $file_activity_cfg['DISPLAY_EVENTS'] ? $file_activity_cfg['DISPLAY_EVENTS'] : "25";
 $filesactive		= "";
 $file_activity_log	= "/var/log/file.activity.log";
 
