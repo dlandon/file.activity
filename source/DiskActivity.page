@@ -18,6 +18,23 @@ if (!defined('FILE_ACTIVITY_PLUGIN')) {
 	define('FILE_ACTIVITY_PLUGIN', 'file.activity');
 }
 
+/* Detect Unraid version and assign a CSS class */
+$unraid_version = '';
+if (file_exists('/etc/unraid-version')) {
+	$data = parse_ini_file('/etc/unraid-version');
+	if (!empty($data['version'])) {
+		$unraid_version = $data['version'];
+	}
+}
+
+/* Default to legacy if not detected */
+$title_class = 'legacy';
+
+/* Compare version — 7.2 and newer = latest */
+if (version_compare($unraid_version, '7.2', '>=')) {
+	$title_class = 'latest';
+}
+
 $pidFile	= '/var/run/file.activity.pid';
 $pidStatus	= file_exists($pidFile) ? 'Running' : 'Stopped';
 $pidColor 	= $pidStatus == 'Running' ? 'green' : 'orange';
