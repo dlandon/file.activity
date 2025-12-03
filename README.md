@@ -7,4 +7,4 @@ Latest version: https://raw.githubusercontent.com/dlandon/file.activity/master/f
 
 Specific version: https://raw.githubusercontent.com/dlandon/file.activity/vYYYY.MM.DD/file.activity.plg
 
-Enter the releasae date "YYYY.MM.DD" of the specific version you want to install.  Be sure to keep the "v" before the release date.
+Enter the release date "YYYY.MM.DD" of the specific version you want to install.  Be sure to keep the "v" before the release date.
