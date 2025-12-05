@@ -1,0 +1,144 @@
+<?xml version='1.0' standalone='yes'?>
+<!DOCTYPE PLUGIN [
+<!ENTITY name		"file.activity-next">
+<!ENTITY plugin		"file.activity">
+<!ENTITY author		"dlandon">
+<!ENTITY version	"2025.12.05">
+<!ENTITY launch		"Tools/FileActivity">
+<!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
+<!ENTITY pluginURL	"&gitURL;/&name;.plg">
+<!ENTITY supportURL	"https://github.com/dlandon/file.activity/discussions">
+<!ENTITY MD5		"f3ce956d9b990dc609edf788f7b0b1f6">
+]>
+
+<PLUGIN	name="&plugin;"
+		author="&author;"
+		version="&version;"
+		launch="&launch;"
+		pluginURL="&pluginURL;"
+		support="&supportURL;"
+		icon="folder"
+		min="6.12.0">
+
+<CHANGES>
+##&name;
+###&version;
+- First release as File Activity (Next).
+
+###2025.12.05
+- Initial release under the new restrictive license.
+</CHANGES>
+
+<!--
+Copyright 2017-2025 Dan Landon
+This is the webGUI plugin to view disk file activity.
+
+Permission is granted to use this software for personal, educational, or internal use only.
+Commercial use, redistribution, or modification of this software or any derived works
+is strictly prohibited without prior written permission.
+
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+-->
+
+<!--
+Get the plugin bundle.
+-->
+<FILE Name="/boot/config/plugins/&plugin;/&name;-&version;.tgz">
+<URL>"&gitURL;/&name;-&version;.tgz"</URL>
+<MD5>&MD5;</MD5>
+</FILE>
+
+<!--
+The 'pre-install' script.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+# The previous fle activity plugin cannot be installed.
+if [ -f /boot/config/plugins/&plugin;.plg ] ; then
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has not been installed!"
+echo ""
+echo " The previous File Activity plugin is installed."
+echo ""
+echo " You must uninstall the File Activity plugin"
+echo " before installing File Activity (Next)."
+echo ""
+echo "-----------------------------------------------------------"
+echo ""
+exit 1
+fi
+
+# Stop File Activity inotify if it is running.
+if [ -x "/usr/local/emhttp/plugins/&plugin;/scripts/rc.&plugin;" ]; then
+	# Stop file activity.
+	/usr/local/emhttp/plugins/&plugin;/scripts/rc.&plugin; stop 2>/dev/null
+fi
+
+# Remove emhttp files so we can re-install.
+rm -rf /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
+
+# Remove old 'bundle' files.
+rm -f $(ls /boot/config/plugins/&plugin;/&name;*.tgz 2>/dev/null | grep -v '&version;')
+</INLINE>
+</FILE>
+
+<!--
+Install the plugin bundle.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+# Create plugin directory
+mkdir /boot/config/plugins/&plugin; 2>/dev/null
+
+# Install the 'bundle'.
+tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/plugins 2>/dev/null
+</INLINE>
+</FILE>
+
+<FILE Name="/boot/config/plugins/&plugin;/&plugin;.cfg">
+<INLINE>
+<![CDATA[
+]]>
+</INLINE>
+</FILE>
+
+<!--
+The 'post-install' script.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+# Create disks file directory.
+mkdir /tmp/&plugin; 2>/dev/null
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; is installed."
+echo " Copyright 2017-2025, &author;"
+echo " Version: &version;"
+echo "-----------------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+<!--
+The 'remove' script.
+-->
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+# Stop file activity.
+/usr/local/emhttp/plugins/&plugin;/scripts/rc.&plugin; stop 2>/dev/null
+
+# Remove all plugin files.
+rm -rf /usr/local/emhttp/plugins/&plugin; 2>/dev/null
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has been removed."
+echo " Version: &version;"
+echo "-----------------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+</PLUGIN>
