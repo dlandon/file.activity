@@ -6,6 +6,7 @@
 <!ENTITY version	"2025.12.27">
 <!ENTITY launch		"Tools/FileActivity">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
+<!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions">
 <!ENTITY MD5		"da3c0ee9efc88c001afa47d67336c941">
@@ -24,11 +25,11 @@
 ##&name;
 ###&version;
 - Fix: Do not start file activity if the array is not running.
-- Fix: Some code fixes and minor refactor.
+- Fix: Some fixes and code refactors.
 - Fix: Inotify include and exlude fixes for proper inotify operation.
 - Fix: Default max log lines to 5000 and not 2000.
 
-###12.05.2026
+###12.05.2025
 - First release as File Activity (Next).
 
 ###2025.12.05
@@ -50,7 +51,7 @@ THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
 Get the plugin bundle.
 -->
 <FILE Name="/boot/config/plugins/&plugin;/&name;-&version;.tgz">
-<URL>"&gitURL;/&name;-&version;.tgz"</URL>
+<URL>"&tgzURL;/&name;-&version;.tgz"</URL>
 <MD5>&MD5;</MD5>
 </FILE>
 
