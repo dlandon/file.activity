@@ -5,7 +5,7 @@
 <!ENTITY author		"dlandon">
 <!ENTITY version	"2025.12.27">
 <!ENTITY launch		"Tools/FileActivity">
-<!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
+<!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions">
 <!ENTITY MD5		"da3c0ee9efc88c001afa47d67336c941">
